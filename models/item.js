@@ -5,17 +5,25 @@ const ItemSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
-    itemName: {
+    name: {
         type: String,
         require: [true, "Item name is required."],
     },
-    itemDescription: {
+    description: {
         type: String,
+        require: [false],
+    },
+    stockMax: {
+        type: Number,
+        require: [true],
+    },
+    stockCurrent: {
+        type: Number,
         require: [false],
     },
     tag: {
         type: String,
-        require: [false, "Tag is required"]
+        require: [false]
     }
 })
 

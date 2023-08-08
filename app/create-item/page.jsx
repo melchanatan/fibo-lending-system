@@ -11,26 +11,31 @@ const CreateItem = () => {
     const {data: session} = useSession();
     const [submitting, setSubmitting] = useState(false);
     const [post, setPost] = useState({
-        itemName: "",
-        itemDescription: "",
+        name: "",
+        description: "",
         tag: "",
-        fileName: "",
+        image: "",
+        stockMax: 0,
+        stockCurrent: 0
     });
 
     const createItem = async (e) => {
         e.preventDefault();
         setSubmitting(true);
         console.log(post)
+        console.log(post.name)
 
         try {
             const response = await fetch('/api/item/new', {
                 method: "POST",
                 body: JSON.stringify({
-                    itemName: post.itemName,
+                    name: post.name,
                     userId: session?.user.id,
-                    itemDescription: post.itemDescription,
+                    description: post.description,
                     tag: post.tag,
-                    fileName: post.fileName
+                    image: post.imageUrl,
+                    stockMax: post.stockMax,
+                    stockCurrent: post.stockMax
                 })
             })
             if (response.ok) {

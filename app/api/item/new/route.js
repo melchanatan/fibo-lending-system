@@ -2,12 +2,10 @@ import { connectToDB } from "@utils/database";
 import Item from "@models/item";
 
 
-
-
 export const POST = async (req, res) => {
-    const { userId, itemName, tag, itemDescription, fileName } = await req.json();
+    const { userId, name, tag, description, image, stockMax, stockCurrent } = await req.json();
     try {
-        console.log(fileName)
+        console.log(image)
     } catch(err) {
         console.log(err)
     }
@@ -16,8 +14,11 @@ export const POST = async (req, res) => {
         await connectToDB();
         const newItem = new Item({
             creator: userId,
-            itemName,
-            itemDescription,
+            name,
+            description,
+            stockCurrent,
+            stockMax,
+            image,
             tag,
         })
 
