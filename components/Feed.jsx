@@ -3,7 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import ItemCard from './ItemCard'
 import CartCard from './CartCard';
+import Confirm from './Confirm'
 
+import { Router, useRouter } from 'next/navigation'
+import Link from "next/link"
 const ItemCardList = ({ data, addToCart}) => {
     console.log(data)
     return (
@@ -18,10 +21,19 @@ const ItemCardList = ({ data, addToCart}) => {
     );
 };
 
-const Cart = ({ data, setItemInCart, itemInCart, setAllPosts }) => {
+const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
+    
     const [submitting, setSubmitting] = useState(false);
-    const [groupNumber, setGroupNumber] = useState(0);
+    const [groupNumber, setGroupNumber] = useState("");
+    const [tel, setTel] = useState("");
+    const [name, setName] = useState("");
     const [wantedStockList, setWantedStockList] = useState([])
+    const [confirming, setConfirming] = useState(false)
+    var flag = false
+
+    const handleBack = () => {
+        setConfirming(false)
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,50 +54,83 @@ const Cart = ({ data, setItemInCart, itemInCart, setAllPosts }) => {
                         if (o._id == item._id) {
                             const stockRemaining = o.stockCurrent - item.wantedStock
                             if (stockRemaining < 0) {
-                                alert("no no")
+                                flag = true
                             }
                             const buffer = o
                             buffer["stockCurrent"] = stockRemaining
-                            d[i] = buffer
+                            result.push(buffer)
                         }
-                    });
-
-                })
-        
-
-            }
-
+                    })
+                }
+            )}
+            
         } catch(error) {
             console.log(error);
         } finally {
             setSubmitting(false)
+            if (!flag) {
+                setConfirming(true)
+            }
         }
-        
     }
 
     return (
-        <div className='h-fit bg-primary-green w-full px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-2 lg:px-8 sm:w-[40%] flex flex-col max-h-fit py-7 justify-between'>
+        <form onSubmit={handleSubmit} className='h-fit bg-primary-green w-full !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-2 lg:px-8 sm:w-[40%] flex flex-col max-h-fit py-7 justify-between'>
+            {confirming && <Confirm handleBack={handleBack} itemInCart={itemInCart} tel={tel} name={name} groupNumber={groupNumber} />}
             <h3 className='text-left text-white text-[2rem] font-satoshi tracking-wider font-bold'>
                 Cart
             </h3>
-            <ul className='h-[50vh] mt-6 flex flex-col gap-6 overflow-y-scroll'>
+            <ul className='h-[50vh] mt-6 flex flex-col gap-6 overflow-y-auto pr-2'>
                 {data && data.map( (post) => (
                     <CartCard 
                         post={post}
                         setItemInCart={setItemInCart}
                         itemInCart={itemInCart}
-                        wantedStockList={wantedStockList}
-                        setWantedStockList={setWantedStockList}
-
                     />
                 ))}
             </ul>
             <div>
+                
+                <label className='flex'>
+                    <span className='font-semibold text-lg xt-base text-white tracking-wide mr-1'>
+                        Tel
+                    </span>
+                    <span className='font-semibold text-lg xt-base text-white tracking-wide mr-1'>
+                        :
+                    </span>
+                    <input 
+                        value={tel}
+                        onChange={ (e) => setTel(e.target.value)}
+                        placeholder=''
+                        required
+                        type="tel"
+                        className='translate-y-[-6px] font-montserrat focus:mx-2 mx-6 w-full text-lg bg-primary-green border-b-2 text-center px-3 text-white border-white mb-4 placeholder-slate-300 select duration-200 remove-arrow ease-in transition-all outline-none'
+                    />
+                </label>
+                <label className='flex'>
+                    <span className='font-semibold text-lg xt-base text-white tracking-wide mr-1'>
+                        Nickname
+                    </span>
+                    <span className='font-semibold text-lg xt-base text-white tracking-wide mr-1'>
+                        :
+                    </span>
+                    <input 
+                        value={name}
+                        onChange={ (e) => setName(e.target.value)}
+                        placeholder=''
+                        required
+                        type="input"
+                        className='translate-y-[-6px] font-montserrat focus:mx-2 mx-6 w-full text-lg bg-primary-green border-b-2 text-center px-3 text-white border-white mb-4 placeholder-slate-300 select duration-200 remove-arrow ease-in transition-all outline-none'
+                    />
+                </label>
                 <label className='flex'>
                     <span className='font-semibold text-lg xt-base text-white tracking-wide mr-1'>
                         {"Group "}
                     </span>
-                    <span className='font-semibold text-lg text-white tracking-wide inline lg:flex md:hidden sm:hidden md:inline'>
+                    <span className='font-semibold text-lg text-white tracking-wide inline lg:hidden md:flex sm:flex'>
+                        :
+                    </span>
+                    <span className='font-semibold text-lg text-white tracking-wide inline lg:flex md:hidden sm:hidden'>
                         Number:
                     </span>
                     <input 
@@ -94,19 +139,23 @@ const Cart = ({ data, setItemInCart, itemInCart, setAllPosts }) => {
                         placeholder=''
                         required
                         type="number"
-                        className='font-montserrat focus:mx-2 mx-6 w-full text-lg bg-primary-green border-b-2 text-center px-3 text-white border-white mb-4 placeholder-slate-300 select duration-200 remove-arrow ease-in transition-all outline-none'
+                        className='translate-y-[-6px] font-montserrat focus:mx-2 mx-6 w-full text-lg bg-primary-green border-b-2 text-center px-3 text-white border-white mb-4 placeholder-slate-300 select duration-200 remove-arrow ease-in transition-all outline-none'
                     />
                 </label>
-                <button onClick={handleSubmit} disabled={submitting} className='!text-lg white_btn w-full'>
+            
+
+                <button type="submit" disabled={submitting} className='!text-lg white_btn w-full'>
                     send{submitting && "ing..."}
                 </button>
             </div>
         
-        </div>
+        </form>
     )
 }
 
 const Feed = () => {
+    const router = useRouter();
+
     const [itemInCart, setItemInCart] = useState([]);
     const [allPosts, setAllPosts] = useState([]);
 
@@ -125,6 +174,8 @@ const Feed = () => {
 
 
     const addToCart = (post) => {
+    
+        // TODO: Click to add by 1
         // check duplicate in cart
         const found = itemInCart.some(current => current._id === post._id);
         if (!found) setItemInCart([...itemInCart, post])
@@ -132,12 +183,13 @@ const Feed = () => {
 
     return (
         <section className='mt-16 flex-col flex sm:flex-row md:gap-10 lg:gap-20 text-center justify-items-start'>
+            
             { allPosts ? (
                 <ItemCardList data={allPosts} addToCart={addToCart}/> 
             ) : (
                 <p className='w-full text-center text-gray-500'>Item list empty.</p>
             )}  
-            <Cart data={itemInCart} setItemInCart={setItemInCart} itemInCart={itemInCart} setAllPosts={setAllPosts} />
+            <Cart router={router} data={itemInCart} setItemInCart={setItemInCart} itemInCart={itemInCart} setAllPosts={setAllPosts} />
         </section>
     )
 }

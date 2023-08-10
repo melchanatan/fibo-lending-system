@@ -11,3 +11,28 @@ export const GET = async (req) => {
         return new Response("Failed to fetch Items", {status:500})
     }
 }
+
+export const PATCH = async (request, { params }) => {
+    const { stockCurrent, id } = await request.json();
+
+    try {
+        await connectToDB();
+
+        // Find the existing prompt by ID
+        const existingItem = await Item.findById(id);
+        console.log(existingItem)
+        console.log(stockCurrent)
+
+        if (!existingItem) {
+            return new Response("Item not found", { status: 404 });
+        }
+
+        existingItem.stockCurrent = stockCurrent;
+        await existingItem.save();
+
+        return new Response("Successfully updated the Prompts", { status: 200 });
+    } catch(error) {
+        return new Response("Error Updating Item", { status: 500 });
+    }
+
+};

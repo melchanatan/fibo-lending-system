@@ -1,27 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-const CartCard = ({post, setItemInCart, itemInCart, wantedStockList, setWantedStockList}) => {
+const CartCard = ({post, setItemInCart, itemInCart, isOutOfStock}) => {
   const [wantedStock, setWantedStock] = useState(1)
+  const [bgRed, setBgRed] = useState(false)
 
-  
-  const handleWantedStock = (e) => {
-
-    if (e.target.value > post.stockCurrent) {
-      setWantedStock(post.stockCurrent)
-      return
-    } 
-    setWantedStock(e.target.value)
-    // var buffer = post;
-    var buffer = itemInCart;
-    buffer.forEach((item) => {
-      if (item._id == post._id) {
-        item["wantedStock"] = parseInt(wantedStock)
-        setItemInCart(buffer)
-      }
-    })
+  const isOut = (isOutOfStock) => {
+    if (isOutOfStock)  {
+      // console.log
+      setBgRed(true)
+    }
   }
 
+  const deleteSelf = () => {
+    setItemInCart((current) => current.filter((p) => p._id != post._id))
+  }
+
+
+  const handleWantedStock = (newValue) => {
+    if (newValue <= 0) {
+      deleteSelf()
+    } else if (newValue >= post.stockCurrent) {
+      setBgRed(true)
+      setWantedStock(post.stockCurrent)
+    } else {
+      setWantedStock(newValue)
+      
+      var buffer = itemInCart;
+      buffer.forEach((item) => {
+        if (item._id == post._id) {
+          item["wantedStock"] = parseInt(wantedStock)
+          setItemInCart(buffer)
+        }
+      })
+    }
+  
+  }
+  
   useEffect( () => {
+    if (post.wantedStock >= post.stockCurrent) {
+      setBgRed(true)
+      setWantedStock(post.stockCurrent)
+    }
     var buffer = itemInCart;
     buffer.forEach((item) => {
       if (item._id == post._id) {
@@ -35,6 +54,7 @@ const CartCard = ({post, setItemInCart, itemInCart, wantedStockList, setWantedSt
 
   return (
     <div className='flex justify-between align-middle'>
+      {bgRed && <div> hello </div>}
       <div className='flex items-center gap-4'>
         <Image
           src="/assets/images/2507562-40.jpg"
@@ -53,15 +73,16 @@ const CartCard = ({post, setItemInCart, itemInCart, wantedStockList, setWantedSt
         </label>
       </div>
       <div className='flex items-center '>
-        <a className="translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-4xl p-2 text-white font-montserrat cursor-pointer" href="">-</a>
-        <input type="text" className='w-[4ch] text-center' value={wantedStock} onChange={(e) => handleWantedStock(e)}/>
-        <a className="active:scale-90 hover:scale-125 transition-all select-none text-3xl p-2 text-white font-montserrat cursor-pointer" href="">+</a>
+        <a onClick={() => handleWantedStock(wantedStock-1)} className="translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-4xl p-2 text-white font-montserrat cursor-pointer" href="">-</a>
+        <input type="text" className='w-[4ch] text-center' value={wantedStock} onChange={(e) => handleWantedStock(e.target.value)}/>
+        <a onClick={() => handleWantedStock(wantedStock+1)} className="active:scale-90 hover:scale-125 transition-all select-none text-3xl p-2 text-white font-montserrat cursor-pointer" href="">+</a>
         <button 
-        onSubmit={false} onClick={() => {setItemInCart((current) => current.filter((p) => p._id != post._id))}} 
+        onSubmit={false} onClick={deleteSelf}
         className='hover:bg-gray-600 text-white text-lg w-[3ch] h-[3ch] rounded-full bg-gray-500 font-montserrat'
         > x </button>
       </div>
     </div>
+    
   )
 }
 

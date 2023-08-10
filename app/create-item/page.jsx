@@ -39,7 +39,7 @@ const CreateItem = () => {
                 })
             })
             if (response.ok) {
-                router.push("/");
+                router.push("/")
             }
 
         } catch (error) {
