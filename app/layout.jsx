@@ -2,6 +2,7 @@ import '@styles/global.css';
 
 import Nav from '@components/Nav';
 import Provider from '@components/Provider';
+import Footer from '@components/Footer';
 
 export const metadata = {
     title: "Fra161",
@@ -12,16 +13,20 @@ const Rootlayout = ({ children }) => {
   return (
     <html>
         <body>
-            <Provider>
-            <div className='main'>
-                <div className='gradient'/>
+            <div>
+                <Provider>
+                <div className='main'>
+                    <div className='gradient'/>
+                </div>
+                
+                <main className='app'>
+                    <Nav />
+                    {children}
+                </main>
+                </Provider>
             </div>
             
-            <main className='app'>
-                <Nav />
-                {children}
-            </main>
-            </Provider>
+            <Footer />
         </body>
     </html>
     

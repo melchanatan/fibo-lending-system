@@ -1,6 +1,6 @@
 "use server"
 
-import { v2 as cloudinary } from 'cloudinary'
+import {v2 as cloudinary, Cloudinary} from 'cloudinary';
 
 const cloudinaryConfig = cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUDNAME,
@@ -9,6 +9,12 @@ const cloudinaryConfig = cloudinary.config({
 })
 
 export async function getSignature() {
+  const cld = new Cloudinary({cloud: {cloudName: 'dvfcfqig2'}});
+
+  cloudinary.v2.uploader.upload("https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
+  { public_id: "olympic_flag" }, 
+  function(error, result) {console.log(result); });
+  
   const timestamp = Math.round(new Date().getTime() / 1000)
 
   const signature = cloudinary.utils.api_sign_request(

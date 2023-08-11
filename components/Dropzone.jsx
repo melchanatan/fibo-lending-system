@@ -4,9 +4,9 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { ArrowUpTrayIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import { getSignature, saveToDatabase } from '@app/_actions'
+// import { getSignature, saveToDatabase } from '@app/_actions'
 
-const Dropzone = ({ className }) => {
+const Dropzone = ({ post, setPost, className }) => {
     const [files, setFiles] = useState([])
     const [rejected, setRejected] = useState([])
   
@@ -53,20 +53,23 @@ const Dropzone = ({ className }) => {
       setRejected(files => files.filter(({ file }) => file.name !== name))
     }
   
-    async function action() {
+    async function submit(e) {
+      alert("hello")
+      e.preventDefault()
       const file = files[0]
       if (!file) return
   
       // get a signature using server action
-      const { timestamp, signature } = await getSignature()
+      // const { timestamp, signature } = await getSignature()
   
       // upload to cloudinary using the signature
       const formData = new FormData()
   
       formData.append('file', file)
       formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY)
-      formData.append('signature', signature)
-      formData.append('timestamp', timestamp)
+      // formData.append('signature', signature)
+      // formData.append('timestamp', timestamp)
+      formData.append('upload_preset', 'p7xhdfpn')
       formData.append('folder', 'next')
   
       const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL
@@ -74,18 +77,14 @@ const Dropzone = ({ className }) => {
         method: 'POST',
         body: formData
       }).then(res => res.json())
+      console.log(data)
+      await setPost({...post, imageUrl: data.url})
   
-      // write to database using server actions
-      await saveToDatabase({
-        version: data?.version,
-        signature: data?.signature,
-        public_id: data?.public_id
-      })
     }
   
 
   return (
-    <form action={action}>
+    <div>
       <div
         {...getRootProps({
           className: className
@@ -114,7 +113,7 @@ const Dropzone = ({ className }) => {
           </button>
 
           <button
-            type='submit'
+            onClick={submit}
             className='ml-auto mt-1 rounded-md border border-purple-400 px-3 text-[12px] font-bold uppercase tracking-wider text-stone-500 transition-colors hover:bg-purple-400 hover:text-white'
           >
             Upload to Cloudinary
@@ -178,7 +177,7 @@ const Dropzone = ({ className }) => {
           ))}
         </ul>
       </section>
-    </form>
+    </div>
   )
 }
 

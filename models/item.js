@@ -24,6 +24,10 @@ const ItemSchema = new Schema({
     tag: {
         type: String,
         require: [false]
+    },
+    image: {
+        type: String,
+        require: [true]
     }
 })
 

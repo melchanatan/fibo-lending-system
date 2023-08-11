@@ -57,7 +57,7 @@ const CartCard = ({post, setItemInCart, itemInCart, isOutOfStock}) => {
       {bgRed && <div> hello </div>}
       <div className='flex items-center gap-4'>
         <Image
-          src="/assets/images/2507562-40.jpg"
+          src={post.image ? post.image : "/assets/images/placeholder-image.png"}
           alt="item_image"
           width="60"
           height="60"

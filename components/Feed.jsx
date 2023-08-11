@@ -8,9 +8,8 @@ import Confirm from './Confirm'
 import { Router, useRouter } from 'next/navigation'
 import Link from "next/link"
 const ItemCardList = ({ data, addToCart}) => {
-    console.log(data)
     return (
-        <div className='justify-self-start h-fit justify-items-start grid sm:w-2/3 w-full grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 max-h-auto'>          
+        <div className='justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 max-h-auto'>          
             {data.map( (post) => (    
                 <ItemCard
                     post={post}
@@ -158,6 +157,9 @@ const Feed = () => {
 
     const [itemInCart, setItemInCart] = useState([]);
     const [allPosts, setAllPosts] = useState([]);
+    const [searchedResults, setSearchedResults] = useState([]);
+    const [activeItem, setActiveItem] = useState(null);
+
 
     const fetchPosts = async () => {
         const response = await fetch('/api/item');
@@ -165,8 +167,15 @@ const Feed = () => {
         console.log(data)
 
         setAllPosts(data);
+        setSearchedResults(data);
     }
 
+    const filterItem = (searchtext) => {
+        const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
+        return allPosts.filter(
+            (item) => regex.test(item.tag)
+        );
+    };
 
     useEffect( () => {
         fetchPosts();
@@ -181,14 +190,30 @@ const Feed = () => {
         if (!found) setItemInCart([...itemInCart, post])
     }
 
+    const tagSelect = (itemName) => {
+        const searchResult = filterItem(itemName);
+        console.log(searchResult)
+        setSearchedResults(searchResult);
+        console.log("hello")
+        console.log(searchResult)
+    }
+
     return (
         <section className='mt-16 flex-col flex sm:flex-row md:gap-10 lg:gap-20 text-center justify-items-start'>
-            
-            { allPosts ? (
-                <ItemCardList data={allPosts} addToCart={addToCart}/> 
-            ) : (
-                <p className='w-full text-center text-gray-500'>Item list empty.</p>
-            )}  
+            <div className='sm:w-2/3 w-full'>
+                <ul className='flex gap-x-[3.6vw] gap-y-3 mb-8 items-end flex-wrap'>
+                    <li onClick={ (e) => {tagSelect("");  setActiveItem(e.target.innerText)}} className={activeItem === "ALL" ? 'link_text link_text--active' : 'link_text'}>ALL</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Acuator" ? 'link_text link_text--active' : 'link_text'}>Acuator</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Sensor" ? 'link_text link_text--active' : 'link_text'}>Sensor</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Supply" ? 'link_text link_text--active' : 'link_text'}>Supply</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Mechanic" ? 'link_text link_text--active' : 'link_text'}>Mechanic</li>
+                </ul>
+                { searchedResults.length != 0 ? (
+                    <ItemCardList  data={searchedResults} addToCart={addToCart}/> 
+                ) : (
+                    <p className='w-full text-gray-500 mt-[5vh]'>Item list empty.</p>
+                )}  
+            </div>
             <Cart router={router} data={itemInCart} setItemInCart={setItemInCart} itemInCart={itemInCart} setAllPosts={setAllPosts} />
         </section>
     )

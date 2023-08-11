@@ -1,16 +1,21 @@
 import Image from "next/image"
-const ItemCard = ({ post, addToCart}) => {
+const ItemCard = ({ post, addToCart, type}) => {
 
+  const handleClick = () => {
+    if (post.stockCurrent > 0) {
+      addToCart(post) 
+    }
+  }
   return (
-    <div onClick={() => addToCart(post)} className="h-fit min-w-0 justify-self-start select-none hover:grayscale hover:bg-gray-200 cursor-pointer flex flex-col bg-green w-full md:p-3 p-2 bg-white rounded">
+    <div onClick={handleClick} className={post.stockCurrent > 0 || type === "admin" ? "item_card item_card--active group" : "item_card item_card--gray"}>
         <Image
-            src="/assets/images/2507562-40.jpg"
+            src={post.image ? post.image : "/assets/images/placeholder-image.png"}
             alt="item_image"
-            width="60"
-            height="60"
-            className="object-contain w-full rounded"
+            width="150"
+            height="150"
+            className={post.stockCurrent > 0 || type === "admin" ? "object-contain w-full group-hover:opacity-75 group-hover:grayscale rounded" : "object-contain w-full rounded opacity-75"}
         />
-        <h3 className="mt-5 font-semibold text-primary-green">
+        <h3 className={post.stockCurrent > 0 || type === "admin" ? "mt-5 font-semibold text-primary-green" : "mt-5 font-semibold text-gray-600"}>
             {post.name}
         </h3>
         {
@@ -24,7 +29,15 @@ const ItemCard = ({ post, addToCart}) => {
             </p>
           )
         }
-        
+        {type === "admin" && (
+          <div div className="flex flex-wrap">
+            <a href="" className="dropdown_link p-1 hover:underline ">edit</a>
+            <span className="pt-[0.2rem]">|</span>
+            <a href="" className="dropdown_link p-1 hover:underline ">reset</a>
+            <span className="pt-[0.2rem]">|</span>
+            <a href="" className="dropdown_link p-1 hover:underline ">delete</a>
+          </div>
+        )}
     </div>
 
   )

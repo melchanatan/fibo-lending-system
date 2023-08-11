@@ -6,7 +6,7 @@ import { useState } from "react";
 import Dropzone from '@components/Dropzone'
 
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
-    
+
     return (
         <section className='w-full max-w-full flex-start flex-col'>
             <h1 className='head_text text-left'>
@@ -34,7 +34,12 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
                     <span className='font-satoshi font-semibold text-base text-gray-700'>
                         Image for your Item
                     </span>
-                    <Dropzone />
+                    <Dropzone 
+                        post={post}
+                        setPost={setPost}
+                        // files={files}
+                        // setFiles={setFiles}
+                    />
                 </label>
                 <label>
                     <span className='font-satoshi font-semibold text-base text-gray-700'>
