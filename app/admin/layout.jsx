@@ -1,4 +1,4 @@
-import RootLayout from '@app/Layout';
+import RootLayout from '@app/layout';
 import Nav from '@components/Nav';
 import Provider from '@components/Provider';
 
