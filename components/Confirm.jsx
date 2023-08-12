@@ -1,3 +1,5 @@
+"use client"
+
 import React, {useState} from 'react'
 import ConfirmItemCard from "./ConfirmItemCard"
 import Link from "next/link"
@@ -6,10 +8,36 @@ import { useRouter } from 'next/navigation'
 
 const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
     const router = useRouter()
-
+    
     const [orderBeenPlace, setOrderBeenPlace] = useState(false)
+    const [submitting, setSubmitting] = useState(false)
+
+    const placeOrder = async () => {
+        const timestamp = new Date().toLocaleString().replace(',','')
+        const filteredItem = itemInCart.map( ({name, wantedStock}) => ({name, wantedStock}))
+        try {
+            const response = await fetch('/api/order/new', {
+                method: "POST",
+                body: JSON.stringify({
+                    customerName: name,
+                    customerTel: tel,
+                    customerGroup: groupNumber,
+                    timestamp: timestamp,
+                    items: filteredItem
+                })
+            })
+            if (response.ok) {
+                return true
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error("Error placing Order.")
+        } 
+    }
     const handleSubmit = async () => {
+        setSubmitting(true)
         //Make change to database
+        var updatingDBError = false
         try {
             const response = await fetch('/api/item');
             const d = await response.json();
@@ -44,16 +72,24 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
                             stockCurrent: item.stockCurrent,
                         }),
                     });
-            
-                    if (response.ok) {
-                        router.push("/confirm")
-                    };
+                    
                 } catch (error) {
+                    updatingDBError = true
                     console.log(error);
             }})
+
+            if (!updatingDBError) {
+                const orderBeenPlaced = await placeOrder()
+                if (orderBeenPlaced) router.push("/confirm")
+                else {
+                    alert("Error Placing order")
+                }
+            }
         } catch(error) {
             console.log(error);
-        } 
+        } finally {
+            setSubmitting(false)
+        }
     }
 
     return (
@@ -75,8 +111,10 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
                         ))}
                     </section>
                     <div className='flex justify-between pt-7'>
-                        <a onClick={handleBack} className="text-2xl font-light text-white underline hover:text-gray-200">Back</a>
-                        <button onClick={handleSubmit} className='white_btn !text-xl !px-[5vw]'>Confirm</button>
+                        <a onClick={handleBack} disabled={submitting} className="text-2xl font-light text-white underline hover:text-gray-200">Back</a>
+                        <button onClick={handleSubmit} disabled={submitting} className='white_btn !text-xl !px-[5vw]'>
+                            confirm{submitting && "ing..."}
+                        </button>
                     </div>
                     
                 </main>

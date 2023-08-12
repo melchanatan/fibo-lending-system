@@ -41,7 +41,6 @@ const handler = NextAuth({
           return false
         }
       },
-    // alert("helo")
     }
   })
   

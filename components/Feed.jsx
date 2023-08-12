@@ -88,8 +88,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                     />
                 ))}
             </ul>
-            <div>
-                
+            <div className='pt-4'>
                 <label className='flex'>
                     <span className='font-semibold text-lg xt-base text-white tracking-wide mr-1'>
                         Tel
@@ -165,6 +164,7 @@ const Feed = () => {
         const response = await fetch('/api/item');
         const data = await response.json();
 
+        data.sort( (a, b) => b.stockCurrent -  a.stockCurrent)
         setAllPosts(data);
         setSearchedResults(data);
     }
@@ -192,6 +192,7 @@ const Feed = () => {
     const tagSelect = (itemName) => {
         const searchResult = filterItem(itemName);
         setSearchedResults(searchResult);
+        console.log("hello")
     }
 
     return (

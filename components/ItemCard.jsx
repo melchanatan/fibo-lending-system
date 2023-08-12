@@ -18,9 +18,17 @@ const ItemCard = ({ post, addToCart, type, handleEdit, handleDelete, handleReset
         <h3 className={post.stockCurrent > 0 || type === "admin" ? "mt-5 font-semibold text-primary-green" : "mt-5 font-semibold text-gray-600"}>
             {post.name}
         </h3>
-        {
-          post.stockCurrent <= 10 ? (
+        { type === "admin" && 
+          <p className="font-satoshi text-gray-500">
+            {post.stockMax} Max
+          </p>
+        }
+        { post.stockCurrent <= 0 ? (
             <p className="font-satoshi font-bold text-gray-500">
+              out of stock
+            </p>
+          ) : post.stockCurrent <= 10 ? (
+            <p className="font-satoshi text-gray-500 font-bold">
               {post.stockCurrent} left!
             </p>
           ) : (
@@ -29,16 +37,12 @@ const ItemCard = ({ post, addToCart, type, handleEdit, handleDelete, handleReset
             </p>
           )
         }
-        {type === "admin" && 
-          <p className="font-satoshi text-gray-500">
-            {post.stockMax} Max
-          </p>
-        }
+        
         {type === "admin" && (
           <div div className="flex flex-wrap">
             <a onClick={ () => handleEdit(post)} className="dropdown_link p-1 hover:underline ">edit</a>
             <span className="pt-[0.2rem]">|</span>
-            <a onClick={handleReset} className="dropdown_link p-1 hover:underline ">reset</a>
+            <a onClick={() => handleReset(post)} className="dropdown_link p-1 hover:underline ">reset</a>
             <span className="pt-[0.2rem]">|</span>
             <a onClick={ () => handleDelete(post)} className="dropdown_link p-1 hover:underline ">delete</a>
           </div>

@@ -54,7 +54,6 @@ const CreateItem = () => {
                     name: post.name,
                     description: post.description,
                     tag: post.tag,
-                    stockMax: post.stockMax,
                     stockCurrent: post.stockMax
                 })
             })

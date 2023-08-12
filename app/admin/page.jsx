@@ -20,6 +20,7 @@ const Admin = () => {
                         type="admin"
                         handleDelete={handleDelete} 
                         handleEdit={handleEdit}
+                        handleReset={handleReset}
                     />
                 ))}
             </div>
@@ -33,6 +34,26 @@ const Admin = () => {
         setAllPosts(data);
         setSearchedResults(data);
     }
+
+    const handleReset = async (post) => {
+        // const response = await fetch(`/api/item/${itemId}`);
+        // const data = await response.json();
+
+        try {
+            const response = await fetch(`/api/item/${post._id}`, {
+                method: "PATCH",
+                body: JSON.stringify({
+                    name: post.name,
+                    description: post.description,
+                    tag: post.tag,
+                    stockMax: post.stockMax,
+                    stockCurrent: post.stockMax
+                })
+            })
+        } catch (error) {
+            console.log(error);
+        } 
+    } 
 
     const handleEdit = (post) => {
         router.push(`/admin/update-item?id=${post._id}`)
@@ -72,6 +93,7 @@ const Admin = () => {
     const tagSelect = (itemName) => {
         const searchResult = filterItem(itemName);
         setSearchedResults(searchResult);
+    }
 
     return (
         <section className='w-full max-w-full flex-start flex-col'>

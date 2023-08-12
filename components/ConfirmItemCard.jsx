@@ -6,7 +6,7 @@ const ConfirmItemCard = ({item}) => {
     <div className='pt-5 flex items-center justify-between border-white border-b-[2px] p-2'>
         <div className='gap-3 flex items-center'>
             <Image
-                src={post.image ? post.image : "/assets/images/placeholder-image.png"}
+                src={item.image ? item.image : "/assets/images/placeholder-image.png"}
                 alt="item_image"
                 width="60"
                 height="60"
