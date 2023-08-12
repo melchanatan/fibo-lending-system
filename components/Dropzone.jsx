@@ -54,7 +54,6 @@ const Dropzone = ({ post, setPost, className }) => {
     }
   
     async function submit(e) {
-      alert("hello")
       e.preventDefault()
       const file = files[0]
       if (!file) return
@@ -77,7 +76,6 @@ const Dropzone = ({ post, setPost, className }) => {
         method: 'POST',
         body: formData
       }).then(res => res.json())
-      console.log(data)
       await setPost({...post, imageUrl: data.url})
   
     }

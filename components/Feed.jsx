@@ -164,7 +164,6 @@ const Feed = () => {
     const fetchPosts = async () => {
         const response = await fetch('/api/item');
         const data = await response.json();
-        console.log(data)
 
         setAllPosts(data);
         setSearchedResults(data);
@@ -192,10 +191,7 @@ const Feed = () => {
 
     const tagSelect = (itemName) => {
         const searchResult = filterItem(itemName);
-        console.log(searchResult)
         setSearchedResults(searchResult);
-        console.log("hello")
-        console.log(searchResult)
     }
 
     return (

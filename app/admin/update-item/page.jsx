@@ -1,14 +1,17 @@
 "use client"
 
 import { useSession } from 'next-auth/react'
-import { Router, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { Router, useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 import Form from "@components/Form"
 
 const CreateItem = () => {
     const router = useRouter();
-    const {data: session} = useSession();
+    const searchParams = useSearchParams();
+    const itemId = searchParams.get("id")
+    var oldImage = ""
+
     const [submitting, setSubmitting] = useState(false);
     const [post, setPost] = useState({
         name: "",
@@ -19,25 +22,44 @@ const CreateItem = () => {
         stockCurrent: 0
     });
 
-    const createItem = async (e) => {
+    useEffect(() => {
+        const getItemDetails = async () => {
+          const response = await fetch(`/api/item/${itemId}`);
+          const data = await response.json();
+
+          setPost({
+            name: data.name,
+            description: data.description,
+            tag: data.tag,
+            image: data.image,
+            stockMax: data.stockMax,
+            stockCurrent: data.stockMax
+          });
+
+        };
+    
+        if (itemId) getItemDetails();
+      }, [itemId]);
+
+    const updateItem = async (e) => {
         e.preventDefault();
+
         setSubmitting(true);
 
+        if (!itemId) return alert("Missing Item Id!")
         try {
-            const response = await fetch('/api/item/new', {
-                method: "POST",
+            const response = await fetch(`/api/item/${itemId}`, {
+                method: "PATCH",
                 body: JSON.stringify({
                     name: post.name,
-                    userId: session?.user.id,
                     description: post.description,
                     tag: post.tag,
-                    image: post.imageUrl,
                     stockMax: post.stockMax,
                     stockCurrent: post.stockMax
                 })
             })
             if (response.ok) {
-                router.push("/")
+                router.push("/admin/")
             }
 
         } catch (error) {
@@ -49,11 +71,11 @@ const CreateItem = () => {
 
   return (
     <Form
-        type="Create"
+        type="Edit"
         post={post}
         setPost={setPost}
         submitting={submitting}
-        handleSubmit={createItem}
+        handleSubmit={updateItem}
     />
 )}  
 

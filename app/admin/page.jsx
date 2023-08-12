@@ -1,8 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react'
 import ItemCard from '@components/ItemCard'
+import { Router, useRouter } from 'next/navigation';
 
 const Admin = () => {
+    const router = useRouter();
     const [itemInCart, setItemInCart] = useState([]);
     const [allPosts, setAllPosts] = useState([]);
     const [searchedResults, setSearchedResults] = useState([]);
@@ -16,6 +18,8 @@ const Admin = () => {
                         post={post}
                         addToCart={addToCart}
                         type="admin"
+                        handleDelete={handleDelete} 
+                        handleEdit={handleEdit}
                     />
                 ))}
             </div>
@@ -25,11 +29,34 @@ const Admin = () => {
     const fetchPosts = async () => {
         const response = await fetch('/api/item');
         const data = await response.json();
-        console.log(data)
 
         setAllPosts(data);
         setSearchedResults(data);
     }
+
+    const handleEdit = (post) => {
+        router.push(`/admin/update-item?id=${post._id}`)
+    }
+
+    const handleDelete = async (post) => {
+        const hasConfirmed = confirm(
+          "Are you sure you want to delete this Item?"
+        );
+
+        if (hasConfirmed) {
+            try {
+                await fetch(`/api/item/${post._id.toString()}`, {
+                method: "DELETE",
+                });
+        
+                const filteredPosts = searchedResults.filter((item) => item._id !== post._id);
+        
+                setSearchedResults(filteredPosts);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
 
     const filterItem = (searchtext) => {
         const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
@@ -44,11 +71,8 @@ const Admin = () => {
 
     const tagSelect = (itemName) => {
         const searchResult = filterItem(itemName);
-        console.log(searchResult)
         setSearchedResults(searchResult);
-        console.log("hello")
-        console.log(searchResult)
-    }
+
     return (
         <section className='w-full max-w-full flex-start flex-col'>
             <h1 className='head_text text-left'>
@@ -64,7 +88,7 @@ const Admin = () => {
                 </ul>
             </div>
             { searchedResults.length != 0 ? (
-                <ItemCardList  data={searchedResults} addToCart=""/> 
+                <ItemCardList  data={searchedResults} addToCart={ () => {} }/> 
             ) : (
                 <p className='w-full text-gray-500 mt-[5vh]'>Item list empty.</p>
             )}  

@@ -20,8 +20,6 @@ export const PATCH = async (request, { params }) => {
 
         // Find the existing prompt by ID
         const existingItem = await Item.findById(id);
-        console.log(existingItem)
-        console.log(stockCurrent)
 
         if (!existingItem) {
             return new Response("Item not found", { status: 404 });

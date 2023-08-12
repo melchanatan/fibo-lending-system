@@ -1,5 +1,5 @@
 import Image from "next/image"
-const ItemCard = ({ post, addToCart, type}) => {
+const ItemCard = ({ post, addToCart, type, handleEdit, handleDelete, handleReset}) => {
 
   const handleClick = () => {
     if (post.stockCurrent > 0) {
@@ -29,13 +29,18 @@ const ItemCard = ({ post, addToCart, type}) => {
             </p>
           )
         }
+        {type === "admin" && 
+          <p className="font-satoshi text-gray-500">
+            {post.stockMax} Max
+          </p>
+        }
         {type === "admin" && (
           <div div className="flex flex-wrap">
-            <a href="" className="dropdown_link p-1 hover:underline ">edit</a>
+            <a onClick={ () => handleEdit(post)} className="dropdown_link p-1 hover:underline ">edit</a>
             <span className="pt-[0.2rem]">|</span>
-            <a href="" className="dropdown_link p-1 hover:underline ">reset</a>
+            <a onClick={handleReset} className="dropdown_link p-1 hover:underline ">reset</a>
             <span className="pt-[0.2rem]">|</span>
-            <a href="" className="dropdown_link p-1 hover:underline ">delete</a>
+            <a onClick={ () => handleDelete(post)} className="dropdown_link p-1 hover:underline ">delete</a>
           </div>
         )}
     </div>
