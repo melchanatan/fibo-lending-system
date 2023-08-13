@@ -98,7 +98,7 @@ const Admin = () => {
 
     return (
         <section className='w-full max-w-full flex-start flex-col px-6'>
-            <h1 className='head_text text-left'>
+            <h1 className='head_text !text-clamp-md text-left'>
                 <span>Admin's Item editor</span>
             </h1>
             <div className='w-full'>
@@ -118,7 +118,7 @@ const Admin = () => {
             <button
                 type='button'
                 className='fixed bottom-[4rem] right-[5vw] flex h-[5rem] w-[5rem] items-center justify-center rounded-full border border-primary-green bg-primary-green transition-colors hover:bg-white'
-                onClick={() => removeFile(file.name)}
+                onClick={() => router.push("/admin/create-item")}
             >
                 <PlusIcon className='h-[3rem] w-[3rem] fill-white transition-colors hover:fill-primary-green' />
             </button>

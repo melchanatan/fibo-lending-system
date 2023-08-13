@@ -21,7 +21,7 @@ const page = () => {
 
   return (
     <div className='items-center fixed w-full h-full bg-primary-green top-0 right-0 p-5 flex justify-center'>
-      <h1 className='text-6xl text-white font-bold max-w-[70vw] text-center'>done, your order have been place</h1>
+      <h1 className='head_text !text-white font-bold max-w-full max-w-[70vw] text-center'>done, <br></br> your order have been place</h1>
     </ div>
   )
 }
