@@ -26,7 +26,6 @@ const Rootlayout = ({ children }) => {
                 {/* </Provider> */}
             </div>
             
-            <Footer />
         </body>
     </html>
     

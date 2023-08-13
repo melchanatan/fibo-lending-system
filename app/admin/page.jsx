@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import ItemCard from '@components/ItemCard'
 import { Router, useRouter } from 'next/navigation';
+import { PlusIcon } from '@heroicons/react/24/solid'
 
 const Admin = () => {
     const router = useRouter();
@@ -96,7 +97,7 @@ const Admin = () => {
     }
 
     return (
-        <section className='w-full max-w-full flex-start flex-col'>
+        <section className='w-full max-w-full flex-start flex-col px-6'>
             <h1 className='head_text text-left'>
                 <span>Admin's Item editor</span>
             </h1>
@@ -114,7 +115,13 @@ const Admin = () => {
             ) : (
                 <p className='w-full text-gray-500 mt-[5vh]'>Item list empty.</p>
             )}  
-            
+            <button
+                type='button'
+                className='fixed bottom-[4rem] right-[5vw] flex h-[5rem] w-[5rem] items-center justify-center rounded-full border border-primary-green bg-primary-green transition-colors hover:bg-white'
+                onClick={() => removeFile(file.name)}
+            >
+                <PlusIcon className='h-[3rem] w-[3rem] fill-white transition-colors hover:fill-primary-green' />
+            </button>
         </section>
     )
 }

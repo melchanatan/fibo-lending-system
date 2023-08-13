@@ -67,23 +67,26 @@ const CartCard = ({post, setItemInCart, itemInCart, isOutOfStock}) => {
           alt="item_image"
           width="70"
           height="70"
-          className="object-contain rounded-r-md mr-3 bg-white"
+          className="object-contain rounded-r-md mr-3 bg-white h-full"
         />
-        <label className='flex flex-col text-left'>
+        <label className='flex flex-col text-left sm:ml-4 ml-0 md:ml-0 '>
           <h3 className='font-semibold tracking-wide text-white'>
             {post.name}
           </h3>
           <p className='text-left'>
             {post.stockCurrent} left
           </p>
+          <div className='hidden items-center sm:flex lg:hidden'>
+            <a onClick={() => handleWantedStock(wantedStock-1)} className="translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-2xl px-2 text-white font-montserrat cursor-pointer" href="">-</a>
+            <input type="text" className='w-[4ch] text-center' value={wantedStock} onChange={(e) => handleWantedStock(e.target.value)}/>
+            <a onClick={() => handleWantedStock(wantedStock+1)} className="active:scale-90 hover:scale-125 transition-all select-none text-2xl px-2 text-white font-montserrat cursor-pointer" href="">+</a>
+          </div>
         </label>
       </div>
-      <div className='flex items-center '>
-        
-        <a onClick={() => handleWantedStock(wantedStock-1)} className="translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-4xl p-2 text-white font-montserrat cursor-pointer" href="">-</a>
+      <div className='flex items-center sm:hidden lg:flex'>
+        <a onClick={() => handleWantedStock(wantedStock-1)} className="inline translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-4xl p-2 text-white font-montserrat cursor-pointer" href="">-</a>
         <input type="text" className='w-[4ch] text-center' value={wantedStock} onChange={(e) => handleWantedStock(e.target.value)}/>
-        <a onClick={() => handleWantedStock(wantedStock+1)} className="active:scale-90 hover:scale-125 transition-all select-none text-3xl p-2 text-white font-montserrat cursor-pointer" href="">+</a>
-        
+        <a onClick={() => handleWantedStock(wantedStock+1)} className="inline active:scale-90 hover:scale-125 transition-all select-none text-3xl p-2 text-white font-montserrat cursor-pointer" href="">+</a>
       </div>
     </div>
     

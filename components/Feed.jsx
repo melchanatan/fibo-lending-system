@@ -9,7 +9,7 @@ import { Router, useRouter } from 'next/navigation'
 import Link from "next/link"
 const ItemCardList = ({ data, addToCart}) => {
     return (
-        <div className='justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8 max-h-auto'>          
+        <div className='justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 lg:gap-8 max-h-auto'>          
             {data.map( (post) => (    
                 <ItemCard
                     post={post}
@@ -74,12 +74,12 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className='h-fit bg-primary-green w-full !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-2 lg:px-8 sm:w-[40%] flex flex-col max-h-fit py-7 justify-between'>
+        <form onSubmit={handleSubmit} className='h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-8 md:mt-0'>
             {confirming && <Confirm handleBack={handleBack} itemInCart={itemInCart} tel={tel} name={name} groupNumber={groupNumber} />}
             <h3 className='text-left text-white text-[2rem] font-satoshi tracking-wider font-bold'>
                 Cart
             </h3>
-            <ul className='h-[50vh] mt-6 flex flex-col gap-6 overflow-y-auto pr-2'>
+            <ul className='min-h-[30vh] max-h-[60vh] sm:h-[50vh] mt-6 flex flex-col gap-6 overflow-y-auto pr-2'>
                 {data && data.map( (post) => (
                     <CartCard 
                         post={post}
@@ -88,7 +88,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                     />
                 ))}
             </ul>
-            <div className='pt-4'>
+            <div className='pt-8 sm:pt-4'>
                 <label className='flex'>
                     <span className='font-semibold text-lg xt-base text-white tracking-wide mr-1'>
                         Tel
@@ -125,7 +125,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                     <span className='font-semibold text-lg xt-base text-white tracking-wide mr-1'>
                         {"Group "}
                     </span>
-                    <span className='font-semibold text-lg text-white tracking-wide inline lg:hidden md:flex sm:flex'>
+                    <span className='font-semibold text-lg text-white tracking-wide hidden md:inline sm:inline lg:hidden'>
                         :
                     </span>
                     <span className='font-semibold text-lg text-white tracking-wide inline lg:flex md:hidden sm:hidden'>
@@ -157,7 +157,7 @@ const Feed = () => {
     const [itemInCart, setItemInCart] = useState([]);
     const [allPosts, setAllPosts] = useState([]);
     const [searchedResults, setSearchedResults] = useState([]);
-    const [activeItem, setActiveItem] = useState(null);
+    const [activeItem, setActiveItem] = useState("ALL");
 
 
     const fetchPosts = async () => {
@@ -196,9 +196,9 @@ const Feed = () => {
     }
 
     return (
-        <section className='mt-16 flex-col flex sm:flex-row md:gap-10 lg:gap-20 text-center justify-items-start'>
-            <div className='sm:w-2/3 w-full'>
-                <ul className='flex gap-x-[3.6vw] gap-y-3 mb-8 items-end flex-wrap'>
+        <section className='mt-6 sm:mt-16 flex-col flex sm:flex-row md:gap-[1vw] lg:gap-[2vw] text-center justify-items-start'>
+            <div className='sm:w-1/2 w-full md:w-2/3 px-10 sm:px-6'>
+                <ul className='flex gap-x-[7vw] sm:gap-x-[3.2vw] gap-y-3 mb-8 items-end flex-wrap'>
                     <li onClick={ (e) => {tagSelect("");  setActiveItem(e.target.innerText)}} className={activeItem === "ALL" ? 'link_text link_text--active' : 'link_text'}>ALL</li>
                     <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Acuator" ? 'link_text link_text--active' : 'link_text'}>Acuator</li>
                     <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Sensor" ? 'link_text link_text--active' : 'link_text'}>Sensor</li>
@@ -208,7 +208,7 @@ const Feed = () => {
                 { searchedResults.length != 0 ? (
                     <ItemCardList  data={searchedResults} addToCart={addToCart}/> 
                 ) : (
-                    <p className='w-full text-gray-500 mt-[5vh]'>Item list empty.</p>
+                    <p className='py-[8vh] w-full text-gray-500 mt-[5vh]'>Item list empty.</p>
                 )}  
             </div>
             <Cart router={router} data={itemInCart} setItemInCart={setItemInCart} itemInCart={itemInCart} setAllPosts={setAllPosts} />

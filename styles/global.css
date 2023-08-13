@@ -119,25 +119,27 @@ h1, h2, h3, h4, p, span{
 
 /* Tailwind Styles */
 .item_card {
-  @apply h-fit min-w-0 justify-self-start select-none flex flex-col w-full md:p-3 p-2 bg-white rounded
+  @apply shadow-gray-400 shadow-md h-fit min-w-0 justify-self-start select-none flex flex-col w-full md:p-3 p-2 bg-white rounded
 }
 
 .item_card--active {
   @apply hover:grayscale hover:bg-gray-200 cursor-pointer
 }
+
 .item_card--gray {
   @apply !bg-gray-400 
 }
 
 .link_text {
-  @apply align-text-bottom inline text-[1.5rem] font-bold text-gray-500 font-satoshi hover:scale-[120%] transition-all
+  @apply align-text-bottom inline text-clamp-sm font-bold text-gray-500 font-satoshi hover:scale-[120%] transition-all
 }
 
 .link_text--active {
-  @apply !text-2xl text-gray-600
+  @apply !text-xl sm:!text-2xl
 }
+
 .app {
-  @apply relative z-10 flex justify-center items-center flex-col max-w-[85rem] mx-auto sm:px-8 px-4;
+  @apply relative z-10 flex justify-center items-center flex-col max-w-[85rem] mx-auto sm:px-8;
 }
 
 
@@ -154,7 +156,7 @@ h1, h2, h3, h4, p, span{
 }
 
 .head_text {
-  @apply mt-5 text-5xl font-extrabold leading-[1.15] text-primary-green sm:text-6xl;
+  @apply mt-5 text-clamp-lg font-extrabold leading-[1.15] text-primary-green sm:text-6xl;
 }
 
 .orange_gradient {

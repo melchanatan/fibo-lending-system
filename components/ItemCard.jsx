@@ -15,7 +15,7 @@ const ItemCard = ({ post, addToCart, type, handleEdit, handleDelete, handleReset
             height="150"
             className={post.stockCurrent > 0 || type === "admin" ? "object-contain w-full group-hover:opacity-75 group-hover:grayscale rounded" : "object-contain w-full rounded opacity-75"}
         />
-        <h3 className={post.stockCurrent > 0 || type === "admin" ? "mt-5 font-semibold text-primary-green" : "mt-5 font-semibold text-gray-600"}>
+        <h3 className={post.stockCurrent > 0 || type === "admin" ? "mt-2 md:mt-5 font-semibold text-primary-green" : "mt-2 md:mt-5 font-semibold text-gray-600"}>
             {post.name}
         </h3>
         { type === "admin" && 

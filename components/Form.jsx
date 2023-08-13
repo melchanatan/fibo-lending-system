@@ -8,7 +8,7 @@ import Dropzone from '@components/Dropzone'
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
 
     return (
-        <section className='w-full max-w-full flex-start flex-col'>
+        <section className='w-full max-w-full flex-start flex-col px-6'>
             <h1 className='head_text text-left'>
                 <span>{type} Item</span>
             </h1>

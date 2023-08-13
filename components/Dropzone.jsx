@@ -89,7 +89,7 @@ const Dropzone = ({ post, setPost, className }) => {
         })}
       >
         <input {...getInputProps({ name: 'file' })} />
-        <div className='flex flex-col items-center justify-center gap-4'>
+        <div className='flex flex-col items-center justify-center gap-4 py-7 bg-slate-100 rounded-xl'>
           <ArrowUpTrayIcon className='h-5 w-5 fill-current' />
           {isDragActive ? (
             <p>Drop the files here ...</p>
