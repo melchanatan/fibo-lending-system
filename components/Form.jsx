@@ -83,7 +83,7 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
                 </label>
 
                 <div className='flex-end mx-3 mb-5 gap-4'>
-                    <a href="/" className="text-gray-500 text-md">
+                    <a href="/admin/" className="text-gray-500 text-md">
                         Cancel
                     </a>
 

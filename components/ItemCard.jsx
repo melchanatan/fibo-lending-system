@@ -7,7 +7,7 @@ const ItemCard = ({ post, addToCart, type, handleEdit, handleDelete, handleReset
     }
   }
   return (
-    <div onClick={handleClick} className={post.stockCurrent > 0 || type === "admin" ? "item_card item_card--active group" : "item_card item_card--gray"}>
+    <div onClick={handleClick} className={type === "admin" ? "item_card group" : post.stockCurrent > 0 ? "item_card item_card--active group" :"item_card item_card--gray" }>
         <Image
             src={post.image ? post.image : "/assets/images/placeholder-image.png"}
             alt="item_image"
@@ -18,6 +18,11 @@ const ItemCard = ({ post, addToCart, type, handleEdit, handleDelete, handleReset
         <h3 className={post.stockCurrent > 0 || type === "admin" ? "mt-2 md:mt-5 font-semibold text-primary-green" : "mt-2 md:mt-5 font-semibold text-gray-600"}>
             {post.name}
         </h3>
+        { (type === "admin" && post.description) && 
+          <a className="font-satoshi text-gray-500 underline font-bold" href="http://localhost:3000/admin/create-item">
+            Datasheet
+          </a>
+        }
         { type === "admin" && 
           <p className="font-satoshi text-gray-500">
             {post.stockMax} Max
