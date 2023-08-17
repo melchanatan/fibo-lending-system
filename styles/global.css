@@ -142,12 +142,13 @@ input[type=number] {
 }
 
 .link_text {
-  @apply align-text-bottom inline text-clamp-sm font-bold text-gray-500 font-satoshi hover:scale-[120%] transition-all
+  @apply align-text-bottom inline text-clamp-sm font-bold px-2 py-1 border-gray-500 border-2 rounded-full text-gray-500 font-satoshi hover:scale-[120%] transition-all
 }
 
 .link_text--active {
-  @apply !text-xl sm:!text-2xl underline
+  @apply border-primary-green border-2 rounded-full bg-primary-green text-white
 }
+
 
 .app {
   @apply relative z-10 flex justify-center items-center flex-col max-w-[85rem] mx-auto sm:px-8;

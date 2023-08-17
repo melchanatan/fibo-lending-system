@@ -236,7 +236,7 @@ const Feed = () => {
     return (
         <section className='mt-6 sm:mt-16 flex-col flex sm:flex-row md:gap-[1vw] lg:gap-[2vw] text-center justify-items-start'>
             <div className='sm:w-1/2 w-full md:w-2/3 px-10 sm:px-6'>
-                <ul className='flex gap-x-[7vw] sm:gap-x-[3.2vw] gap-y-3 mb-8 items-end flex-wrap'>
+                <ul className='flex gap-x-[7vw] sm:gap-x-[2vw] gap-y-4 mb-8 items-end flex-wrap'>
                     <li onClick={ (e) => {tagSelect("");  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "ALL" ? 'link_text link_text--active' : 'link_text'}>ALL</li>
                     <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Acuator" ? 'link_text link_text--active' : 'link_text'}>Acuator</li>
                     <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Sensor" ? 'link_text link_text--active' : 'link_text'}>Sensor</li>
