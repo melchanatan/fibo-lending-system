@@ -12,7 +12,7 @@ const ConfirmItemCard = ({item}) => {
                 height="60"
                 className=""
             />
-            <h2 className='font-satoshi font-bold text-xl text-white'>{item.name}</h2>
+            <h2 className='font-satoshi font-bold text-xl text-white text-left'>{item.name}</h2>
         </div>
         
         <div className='flex gap-6'>

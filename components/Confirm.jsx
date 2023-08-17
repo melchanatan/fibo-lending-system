@@ -98,7 +98,7 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
                     <h1 className='head_text !text-clamp-md !text-white text-left'>
                         Please check your Cart
                     </h1>
-                    <div className='flex-col sm:flex-row items-end pt-10 pb-4 flex-start flex gap-2'>
+                    <div className='flex-col sm:flex-row items-end pt-10 pb-4 flex-start flex gap-2 border-white border-b-[2px] p-2'>
                         <div className='flex gap-4 items-end'>
                             <h3 className='text-3xl sm:text-4xl font-semibold text-white'>Group</h3>
                             <h2 className='mr-7 text-5xl font-bold text-white'>{groupNumber}</h2>

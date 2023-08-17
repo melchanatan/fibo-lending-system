@@ -4,18 +4,26 @@ import React, { useEffect, useState } from 'react'
 import ItemCard from './ItemCard'
 import CartCard from './CartCard';
 import Confirm from './Confirm'
+import { ShoppingBagIcon } from '@heroicons/react/24/solid'
+
 
 import { Router, useRouter } from 'next/navigation'
 import Link from "next/link"
-const ItemCardList = ({ data, addToCart}) => {
+const ItemCardList = ({ data, addToCart, maxIndex, setMaxIndex}) => {
     return (
-        <div className='justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 lg:gap-8 max-h-auto'>          
-            {data.map( (post) => (    
+        <div>
+            <div className='mb-[3vw] justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 lg:gap-8 max-h-auto'>          
+            {data.slice(0, maxIndex).map( (post) => (    
                 <ItemCard
                     post={post}
                     addToCart={addToCart}
                 />
             ))}
+            </div>
+            {
+                maxIndex < data.length &&
+                <a onClick={() => setMaxIndex(maxIndex + 9)} className='cursor-pointer justify-self-center font-inter text-xl underline text-primary-green hover:text-slate-600 transition-all'>show more</a>
+            }
         </div>
     );
 };
@@ -28,6 +36,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
     const [name, setName] = useState("");
     const [wantedStockList, setWantedStockList] = useState([])
     const [confirming, setConfirming] = useState(false)
+    const problemItem = {}
     var flag = false
 
     const handleBack = () => {
@@ -54,6 +63,8 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                             const stockRemaining = o.stockCurrent - item.wantedStock
                             if (stockRemaining < 0) {
                                 flag = true
+                                problemItem[o._id] = o.stockCurrent
+
                             }
                             const buffer = o
                             buffer["stockCurrent"] = stockRemaining
@@ -69,16 +80,31 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
             setSubmitting(false)
             if (!flag) {
                 setConfirming(true)
+            } else {
+                console.log(problemItem)
+                itemInCart.forEach( (item) => {
+                    item["stockCurrent"] = problemItem[item._id] ? problemItem[item._id] : item.stockCurrent
+                    item["bgColor"] = problemItem[item._id] ? "red" : "none"
+                })
+
+                console.log(itemInCart)
             }
         }
     }
-
+    // {name: "2S Lipo Battery (7.4V with JST connector)"}
+    // {name: "Arduino Mega"}
     return (
-        <form onSubmit={handleSubmit} className='h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-8 md:mt-0'>
+        <form id="cart" onSubmit={handleSubmit} className='h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-8 md:mt-0'>
             {confirming && <Confirm handleBack={handleBack} itemInCart={itemInCart} tel={tel} name={name} groupNumber={groupNumber} />}
             <h3 className='text-left text-white text-[2rem] font-satoshi tracking-wider font-bold'>
                 Cart
             </h3>
+            <a
+                href="#cart"
+                className='flex sm:hidden z-20 fixed bottom-[4rem] right-[5vw] h-[5rem] w-[5rem] items-center justify-center rounded-full border border-primary-green bg-primary-green transition-colors hover:bg-white'
+            >
+                <ShoppingBagIcon className='h-[3rem] w-[3rem] fill-white transition-colors hover:fill-primary-green' />
+            </a>
             <ul className='min-h-[30vh] max-h-[60vh] sm:h-[50vh] mt-6 flex flex-col gap-6 overflow-y-auto pr-2'>
                 {data && data.map( (post) => (
                     <CartCard 
@@ -98,7 +124,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                     </span>
                     <input 
                         value={tel}
-                        onChange={ (e) => setTel(e.target.value)}
+                        onChange={ (e) => setTel(e.target.value) }
                         placeholder=''
                         required
                         type="tel"
@@ -158,15 +184,28 @@ const Feed = () => {
     const [allPosts, setAllPosts] = useState([]);
     const [searchedResults, setSearchedResults] = useState([]);
     const [activeItem, setActiveItem] = useState("ALL");
-
+    const indexStep = 9
+    const [maxIndex, setMaxIndex] = useState(6)
 
     const fetchPosts = async () => {
         const response = await fetch('/api/item');
         const data = await response.json();
 
-        data.sort( (a, b) => b.stockCurrent -  a.stockCurrent)
-        setAllPosts(data);
-        setSearchedResults(data);
+        const outOfStock = []
+        const inStock = []
+        data.forEach( (a) => {
+            if (a.stockCurrent > 0) inStock.push(a)
+            else outOfStock.push(a)
+        })
+        
+        inStock.sort( (a, b) => {
+            if (a.name < b.name) {return -1}
+            else if (a.name > b.name) {return 1}
+        })
+        
+        const allItems = inStock.concat(outOfStock)
+        setAllPosts(allItems);
+        setSearchedResults(allItems);
     }
 
     const filterItem = (searchtext) => {
@@ -192,21 +231,21 @@ const Feed = () => {
     const tagSelect = (itemName) => {
         const searchResult = filterItem(itemName);
         setSearchedResults(searchResult);
-        console.log("hello")
     }
 
     return (
         <section className='mt-6 sm:mt-16 flex-col flex sm:flex-row md:gap-[1vw] lg:gap-[2vw] text-center justify-items-start'>
             <div className='sm:w-1/2 w-full md:w-2/3 px-10 sm:px-6'>
                 <ul className='flex gap-x-[7vw] sm:gap-x-[3.2vw] gap-y-3 mb-8 items-end flex-wrap'>
-                    <li onClick={ (e) => {tagSelect("");  setActiveItem(e.target.innerText)}} className={activeItem === "ALL" ? 'link_text link_text--active' : 'link_text'}>ALL</li>
-                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Acuator" ? 'link_text link_text--active' : 'link_text'}>Acuator</li>
-                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Sensor" ? 'link_text link_text--active' : 'link_text'}>Sensor</li>
-                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Supply" ? 'link_text link_text--active' : 'link_text'}>Supply</li>
-                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText)}} className={activeItem === "Mechanic" ? 'link_text link_text--active' : 'link_text'}>Mechanic</li>
+                    <li onClick={ (e) => {tagSelect("");  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "ALL" ? 'link_text link_text--active' : 'link_text'}>ALL</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Acuator" ? 'link_text link_text--active' : 'link_text'}>Acuator</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Sensor" ? 'link_text link_text--active' : 'link_text'}>Sensor</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Supply" ? 'link_text link_text--active' : 'link_text'}>Supply</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Mechanic" ? 'link_text link_text--active' : 'link_text'}>Mechanic</li>
+                    <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Controller" ? 'link_text link_text--active' : 'link_text'}>Controller</li>
                 </ul>
                 { searchedResults.length != 0 ? (
-                    <ItemCardList  data={searchedResults} addToCart={addToCart}/> 
+                    <ItemCardList  data={searchedResults} addToCart={addToCart} maxIndex={maxIndex} setMaxIndex={setMaxIndex}/> 
                 ) : (
                     <p className='py-[8vh] w-full text-gray-500 mt-[5vh]'>Item list empty.</p>
                 )}  

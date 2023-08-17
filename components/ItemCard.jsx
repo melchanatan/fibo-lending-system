@@ -11,8 +11,8 @@ const ItemCard = ({ post, addToCart, type, handleEdit, handleDelete, handleReset
         <Image
             src={post.image ? post.image : "/assets/images/placeholder-image.png"}
             alt="item_image"
-            width="150"
-            height="150"
+            width="120"
+            height="120"
             className={post.stockCurrent > 0 || type === "admin" ? "object-contain w-full group-hover:opacity-75 group-hover:grayscale rounded" : "object-contain w-full rounded opacity-75"}
         />
         <h3 className={post.stockCurrent > 0 || type === "admin" ? "mt-2 md:mt-5 font-semibold text-primary-green" : "mt-2 md:mt-5 font-semibold text-gray-600"}>

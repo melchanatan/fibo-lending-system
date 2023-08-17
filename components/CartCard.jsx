@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { ArrowUpTrayIcon, XMarkIcon } from '@heroicons/react/24/solid'
+
 const CartCard = ({post, setItemInCart, itemInCart, isOutOfStock}) => {
   const [wantedStock, setWantedStock] = useState(1)
   const [bgRed, setBgRed] = useState(false)
 
-  const isOut = (isOutOfStock) => {
-    if (isOutOfStock)  {
+  const isOut = () => {
+    if (post.bgColor === "red")  {
       // console.log
       setBgRed(true)
     }
@@ -17,30 +19,42 @@ const CartCard = ({post, setItemInCart, itemInCart, isOutOfStock}) => {
 
 
   const handleWantedStock = (newValue) => {
-    if (newValue <= 0) {
-      deleteSelf()
-    } else if (newValue >= post.stockCurrent) {
-      setBgRed(true)
-      setWantedStock(post.stockCurrent)
+    if (newValue != "") {
+      if (parseInt(newValue) <= 0) deleteSelf()
+      else if (parseInt(newValue) >= post.stockCurrent) setWantedStock(post.stockCurrent)
+      else setWantedStock(newValue)
     } else {
       setWantedStock(newValue)
-      
-      var buffer = itemInCart;
-      buffer.forEach((item) => {
-        if (item._id == post._id) {
-          item["wantedStock"] = parseInt(wantedStock)
-          setItemInCart(buffer)
-        }
-      })
     }
-  
+
+    setBgRed(false)
+    post['bgColor'] = "none"
+  }
+
+  const handleL = (newValue) => {
+    if (parseInt(newValue) <= 0) deleteSelf()
+    else setWantedStock(newValue)
+    post['bgColor'] = "none"
+    setBgRed(false)
   }
   
+  // const updateWantedStock = () => {
+  //   var buffer = itemInCart;
+  //     buffer.forEach((item) => {
+  //       if (item._id == post._id) {
+  //         item["wantedStock"] = parseInt(wantedStock)
+  //         setItemInCart(buffer)
+  //       }
+  //   })
+  //   console.log("hello")
+  // }
+
   useEffect( () => {
-    if (post.wantedStock >= post.stockCurrent) {
-      setBgRed(true)
-      setWantedStock(post.stockCurrent)
-    }
+    // if (post.wantedStock > post.stockCurrent) {
+    //   setBgRed(true)
+    //   setWantedStock(post.stockCurrent)
+    // }
+    isOut()
     var buffer = itemInCart;
     buffer.forEach((item) => {
       if (item._id == post._id) {
@@ -48,45 +62,50 @@ const CartCard = ({post, setItemInCart, itemInCart, isOutOfStock}) => {
         setItemInCart(buffer)
       }
     })
-    console.log(itemInCart)
+
   })
 
 
   return (
-    <div className='flex justify-between align-middle'>
-      {bgRed && <div> hello </div>}
+    <div className={bgRed ? 'bg-red-400 flex justify-between align-middle min-h-[5rem] border-md' : 'flex justify-between align-middle min-h-[5rem]'}>
     
-      <div className='flex items-center'>
-        <button 
-          type="button"
-          onClick={deleteSelf}
-          className='hover:bg-gray-600 text-white text-lg w-[2.4ch] h-full bg-red-400 font-montserrat rounded-l-md'
-        > x </button>
-        <Image
-          src={post.image ? post.image : "/assets/images/placeholder-image.png"}
-          alt="item_image"
-          width="70"
-          height="70"
-          className="object-contain rounded-r-md mr-3 bg-white h-full"
-        />
-        <label className='flex flex-col text-left sm:ml-4 ml-0 md:ml-0 '>
-          <h3 className='font-semibold tracking-wide text-white'>
+      <div className='flex items-center gap-3'>
+        {/* div1 */}
+        <div className='flex items-center relative group h-full w-[5rem]'>
+          <Image
+            src={post.image ? post.image : "/assets/images/placeholder-image.png"}
+            alt="item_image"
+            width="70"
+            height="70"
+            className="object-contain rounded-md bg-white h-full w-full"
+          /> 
+          <span onClick={deleteSelf} className='flex justify-center items-center rounded-md absolute h-full w-full top-0 right-0 bg-gray-700 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-20'>
+            <XMarkIcon className='h-10 w-10 fill-white transition-colors' />
+          </span>
+        </div>
+
+        {/* div2 */}
+        <label className='flex flex-col align-start text-left max-w-[80%]'>
+          <h3 className='font-semibold text-white'>
             {post.name}
           </h3>
           <p className='text-left'>
             {post.stockCurrent} left
           </p>
-          <div className='hidden items-center sm:flex lg:hidden'>
-            <a onClick={() => handleWantedStock(wantedStock-1)} className="translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-2xl px-2 text-white font-montserrat cursor-pointer" href="">-</a>
-            <input type="text" className='w-[4ch] text-center' value={wantedStock} onChange={(e) => handleWantedStock(e.target.value)}/>
-            <a onClick={() => handleWantedStock(wantedStock+1)} className="active:scale-90 hover:scale-125 transition-all select-none text-2xl px-2 text-white font-montserrat cursor-pointer" href="">+</a>
-          </div>
         </label>
+
+        {/* div3 */}
+        {/* <div className='hidden items-center sm:flex lg:hidden'>
+          <a onClick={() => handleWantedStock(wantedStock-1)} className="translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-2xl px-2 text-white font-montserrat cursor-pointer" href="">-</a>
+          <input type="text" className='w-[4ch] text-center' value={wantedStock} onChange={(e) => handleWantedStock(e.target.value)}/>
+          <a onClick={() => handleWantedStock(wantedStock+1)} className="active:scale-90 hover:scale-125 transition-all select-none text-2xl px-2 text-white font-montserrat cursor-pointer" href="">+</a>
+        </div> */}
+      
       </div>
-      <div className='flex items-center sm:hidden lg:flex'>
-        <a onClick={() => handleWantedStock(wantedStock-1)} className="inline translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-4xl p-2 text-white font-montserrat cursor-pointer" href="">-</a>
-        <input type="text" className='w-[4ch] text-center' value={wantedStock} onChange={(e) => handleWantedStock(e.target.value)}/>
-        <a onClick={() => handleWantedStock(wantedStock+1)} className="inline active:scale-90 hover:scale-125 transition-all select-none text-3xl p-2 text-white font-montserrat cursor-pointer" href="">+</a>
+      <div className='flex items-center'>
+        <a onClick={() => handleL(wantedStock-1)} className="flex sm:hidden lg:flex translate-y-[-1px] active:scale-90 hover:scale-125 transition-all select-none text-4xl p-1 text-white font-montserrat cursor-pointer" href="">-</a>
+        <input type="number" className='w-[4ch] text-center' value={wantedStock} onChange={(e) => handleWantedStock(e.target.value)}/>
+        <a onClick={() => handleWantedStock(wantedStock+1)} className="flex sm:hidden lg:flex active:scale-90 hover:scale-125 transition-all select-none text-3xl p-1 text-white font-montserrat cursor-pointer" href="">+</a>
       </div>
     </div>
     

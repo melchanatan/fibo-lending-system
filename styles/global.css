@@ -135,7 +135,7 @@ h1, h2, h3, h4, p, span{
 }
 
 .link_text--active {
-  @apply !text-xl sm:!text-2xl
+  @apply !text-xl sm:!text-2xl underline
 }
 
 .app {
