@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import ItemCard from './ItemCard'
 import CartCard from './CartCard';
 import Confirm from './Confirm'
-import { ShoppingBagIcon } from '@heroicons/react/24/solid'
+import { ShoppingBagIcon } from '@heroicons/react/24/outline'
 
 
 import { Router, useRouter } from 'next/navigation'
@@ -94,18 +94,18 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
     // {name: "2S Lipo Battery (7.4V with JST connector)"}
     // {name: "Arduino Mega"}
     return (
-        <form id="cart" onSubmit={handleSubmit} className='h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-8 md:mt-0'>
+        <form id="cart" onSubmit={handleSubmit} className='sticky top-5 h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-8 md:mt-0'>
             {confirming && <Confirm handleBack={handleBack} itemInCart={itemInCart} tel={tel} name={name} groupNumber={groupNumber} />}
             <h3 className='text-left text-white text-[2rem] font-satoshi tracking-wider font-bold'>
                 Cart
             </h3>
             <a
                 href="#cart"
-                className='flex sm:hidden z-20 fixed bottom-[4rem] right-[5vw] h-[5rem] w-[5rem] items-center justify-center rounded-full border border-primary-green bg-primary-green transition-colors hover:bg-white'
+                className='flex sm:hidden z-20 border-2 fixed bottom-[3rem] right-[9vw] h-[6rem] w-[6rem] items-center justify-center rounded-full border-black bg-primary-green transition-colors hover:bg-white hover:border-black'
             >
-                <ShoppingBagIcon className='h-[3rem] w-[3rem] fill-white transition-colors hover:fill-primary-green' />
+                <ShoppingBagIcon className='h-[4rem] w-[4rem] fill-primary-green transition-colors hover:fill-white border-white' />
             </a>
-            <ul className='min-h-[30vh] max-h-[60vh] sm:h-[50vh] mt-6 flex flex-col gap-6 overflow-y-auto pr-2'>
+            <ul className='min-h-[30vh] max-h-[60vh] sm:h-[60vh] mt-6 flex flex-col gap-6 overflow-y-auto pr-2'>
                 {data && data.map( (post) => (
                     <CartCard 
                         post={post}

@@ -16,6 +16,7 @@ module.exports = {
       colors: {
         'primary-orange': '#FF5722',
         'primary-green': '#36C1A3',
+        'primary-green-darken': '#f1b24b',
       },
       fontSize: {
         "clamp-sm" : "clamp(1rem, 4vw, 1.5rem)",
