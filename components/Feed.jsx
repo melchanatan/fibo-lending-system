@@ -5,7 +5,7 @@ import ItemCard from './ItemCard'
 import CartCard from './CartCard';
 import Confirm from './Confirm'
 import { ShoppingBagIcon } from '@heroicons/react/24/outline'
-
+import {SkeletonCard} from  './SkeletonCard';
 
 import { Router, useRouter } from 'next/navigation'
 import Link from "next/link"
@@ -27,6 +27,18 @@ const ItemCardList = ({ data, addToCart, maxIndex, setMaxIndex}) => {
         </div>
     );
 };
+
+const LoadingSkeleton = (num) => {
+    let skeletonCards = Array(6).fill(0)
+
+    return (
+        <div>
+            <div className='mb-[3vw] w-full grid grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 lg:gap-8'>          
+            { skeletonCards.map((index) => <SkeletonCard key={index} /> )}
+            </div>
+        </div>
+    );
+}
 
 const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
     
@@ -186,6 +198,7 @@ const Feed = () => {
     const [activeItem, setActiveItem] = useState("ALL");
     const indexStep = 9
     const [maxIndex, setMaxIndex] = useState(6)
+    const [loading, setLoading] = useState(true);
 
     const fetchPosts = async () => {
         const response = await fetch('/api/item');
@@ -206,6 +219,7 @@ const Feed = () => {
         const allItems = inStock.concat(outOfStock)
         setAllPosts(allItems);
         setSearchedResults(allItems);
+        setLoading(false)
     }
 
     const filterItem = (searchtext) => {
@@ -244,10 +258,15 @@ const Feed = () => {
                     <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Mechanic" ? 'link_text link_text--active' : 'link_text'}>Mechanic</li>
                     <li onClick={ (e) => {tagSelect(e.target.innerText);  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "Controller" ? 'link_text link_text--active' : 'link_text'}>Controller</li>
                 </ul>
-                { searchedResults.length != 0 ? (
+                {/* { searchedResults.length != 0 ? (
                     <ItemCardList  data={searchedResults} addToCart={addToCart} maxIndex={maxIndex} setMaxIndex={setMaxIndex}/> 
                 ) : (
                     <p className='py-[8vh] w-full text-gray-500 mt-[5vh]'>Item list empty.</p>
+                )}   */}
+                { !loading ? (
+                    <ItemCardList data={searchedResults} addToCart={addToCart} maxIndex={maxIndex} setMaxIndex={setMaxIndex}/> 
+                ) : (
+                    <LoadingSkeleton />
                 )}  
             </div>
             <Cart router={router} data={itemInCart} setItemInCart={setItemInCart} itemInCart={itemInCart} setAllPosts={setAllPosts} />
