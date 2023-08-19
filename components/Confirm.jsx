@@ -94,18 +94,18 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
 
     return (
             <div className='fixed w-full h-full bg-primary-green top-0 right-0 z-30 p-5 flex justify-center'>
-                <main className='w-[60rem] '>
+                <main className='w-[60rem] flex flex-col justify-between pb-2 sm:py-[5vh]'>
                     <h1 className='head_text !text-clamp-md !text-white text-left'>
-                        Please check your Cart
+                        Please check your cart
                     </h1>
-                    <div className='flex-col sm:flex-row items-end pt-10 pb-4 flex-start flex gap-2 border-white border-b-[2px] p-2'>
-                        <div className='flex gap-4 items-end'>
-                            <h3 className='text-3xl sm:text-4xl font-semibold text-white'>Group</h3>
-                            <h2 className='mr-7 text-5xl font-bold text-white'>{groupNumber}</h2>
+                    <div className='flex-col sm:items-end sm:flex-row items-end pt-2 sm:pt-10 pb-3 flex-start flex gap-2 border-white border-b-[2px] p-2'>
+                        <div className='flex gap-4'>
+                            <h3 className='text-3xl sm:text-4xl text-white'>Group</h3>
+                            <h2 className='mr-7 text-5xl font-semibold text-white -translate-y-[10px] sm:-translate-y-[5px]'>{groupNumber}</h2>
                         </div>
                         
-                        <p className='mr-4 text-2xl text-white'>Tel: {tel}</p>
-                        <p className='text-2xl text-white'>Name: {name}</p>
+                        <p className='mr-4 text-2xl text-white -translate-y-[5px] -mt-2'>Tel: {tel}</p>
+                        <p className='text-2xl text-white -translate-y-[5px] -mt-2'>Name: {name}</p>
                     </div>
                     
                     <section className='overflow-auto h-[55vh]'>
@@ -114,9 +114,9 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
                         ))}
                     </section>
                     <div className='flex justify-between pt-7'>
-                        <a onClick={handleBack} disabled={submitting} className="text-2xl font-light text-white underline hover:text-gray-200">Back</a>
-                        <button onClick={handleSubmit} disabled={submitting} className='white_btn !text-xl !px-[5vw]'>
-                            confirm{submitting && "ing..."}
+                        <a onClick={handleBack} disabled={submitting} className="text-2xl text-white underline hover:text-gray-200 ">Back</a>
+                        <button onClick={handleSubmit} disabled={submitting} className='white_btn font-semibold !text-xl !px-[5vw]'>
+                            Confirm{submitting && "ing..."}
                         </button>
                     </div>
                     

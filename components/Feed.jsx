@@ -6,13 +6,17 @@ import CartCard from './CartCard';
 import Confirm from './Confirm'
 import { ShoppingBagIcon } from '@heroicons/react/24/outline'
 import {SkeletonCard} from  './SkeletonCard';
+import { motion, AnimatePresence } from "framer-motion"
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 import { Router, useRouter } from 'next/navigation'
 import Link from "next/link"
 const ItemCardList = ({ data, addToCart, maxIndex, setMaxIndex}) => {
+    const [parent] = useAutoAnimate({duration: 100, easing: "ease-in-out"});
+
     return (
         <div>
-            <div className='mb-[3vw] justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 lg:gap-8 max-h-auto'>          
+            <div ref={parent} className='mb-[3vw] justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 lg:gap-8 max-h-auto'>          
             {data.slice(0, maxIndex).map( (post) => (    
                 <ItemCard
                     post={post}
@@ -50,6 +54,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
     const [confirming, setConfirming] = useState(false)
     const problemItem = {}
     var flag = false
+    const maxGroupNumber = 12;
 
     const handleBack = () => {
         setConfirming(false)
@@ -98,26 +103,27 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                     item["stockCurrent"] = problemItem[item._id] ? problemItem[item._id] : item.stockCurrent
                     item["bgColor"] = problemItem[item._id] ? "red" : "none"
                 })
-
-                console.log(itemInCart)
             }
         }
     }
     // {name: "2S Lipo Battery (7.4V with JST connector)"}
     // {name: "Arduino Mega"}
+      
+    const [parent] = useAutoAnimate({duration: 100, easing:'ease-in-out'});
+    //   const nodeRef = useRef(null);
     return (
-        <form id="cart" onSubmit={handleSubmit} className='sticky top-5 h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-8 md:mt-0'>
+        <form id="cart" onSubmit={handleSubmit} className='sticky top-[5vh] h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-12 sm:mt-0'>
             {confirming && <Confirm handleBack={handleBack} itemInCart={itemInCart} tel={tel} name={name} groupNumber={groupNumber} />}
             <h3 className='text-left text-white text-[2rem] font-satoshi tracking-wider font-bold'>
                 Cart
             </h3>
             <a
                 href="#cart"
-                className='flex sm:hidden z-20 border-2 fixed bottom-[3rem] right-[9vw] h-[6rem] w-[6rem] items-center justify-center rounded-full border-black bg-primary-green transition-colors hover:bg-white hover:border-black'
+                className='flex sm:hidden z-20 border-2 fixed bottom-[3rem] right-[9vw] h-[6rem] w-[6rem] items-center justify-center rounded-full border-black bg-primary-green transition-colors group hover:bg-white hover:border-black'
             >
-                <ShoppingBagIcon className='h-[4rem] w-[4rem] fill-primary-green transition-colors hover:fill-white border-white' />
+                <ShoppingBagIcon className='h-[4rem] w-[4rem] fill-primary-green transition-colors group group-hover:fill-white border-white' />
             </a>
-            <ul className='min-h-[30vh] max-h-[60vh] sm:h-[60vh] mt-6 flex flex-col gap-6 overflow-y-auto pr-2'>
+            <ul ref={parent} className='min-h-[30vh] max-h-[60vh] sm:h-[50vh] mt-6 flex flex-col gap-6 overflow-y-auto overflow-x-hidden pr-2'>
                 {data && data.map( (post) => (
                     <CartCard 
                         post={post}
@@ -174,11 +180,12 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                         onChange={ (e) => setGroupNumber(e.target.value)}
                         placeholder=''
                         required
+                        min="1"
+                        max="12"
                         type="number"
                         className='translate-y-[-6px] font-montserrat focus:mx-2 mx-6 w-full text-lg bg-primary-green border-b-2 text-center px-3 text-white border-white mb-4 placeholder-slate-300 select duration-200 remove-arrow ease-in transition-all outline-none'
                     />
                 </label>
-            
 
                 <button type="submit" disabled={submitting} className='!text-lg white_btn w-full'>
                     send{submitting && "ing..."}

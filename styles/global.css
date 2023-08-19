@@ -10,6 +10,15 @@
 /* 
   Note: The styles for this gradient grid background is heavily inspired by the creator of this amazing site (https://dub.sh) – all credits go to them! 
 */
+@media (hover: hover) {
+  button:hover {
+      background-color: blue;
+  }
+}
+
+html.my-true-hover button:hover {
+  background-color: blue;
+}
 
 html {
   scroll-behavior: smooth;
@@ -22,6 +31,7 @@ html {
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
+  border-radius: 5px;
 }
 
 /* Handle */
@@ -142,7 +152,7 @@ input[type=number] {
 }
 
 .link_text {
-  @apply align-text-bottom inline text-clamp-sm font-bold px-2 py-1 border-gray-500 border-2 rounded-full text-gray-500 font-satoshi hover:scale-[120%] transition-all
+  @apply align-text-bottom inline text-clamp-sm font-bold px-2 py-1 border-gray-500 border-2 rounded-full text-gray-500 font-satoshi hover:scale-[120%] transition-all cursor-pointer
 }
 
 .link_text--active {
