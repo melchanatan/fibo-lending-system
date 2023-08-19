@@ -9,7 +9,6 @@ const CartCard = ({post, setItemInCart, itemInCart}) => {
 
   const isOut = () => {
     if (post.bgColor === "red")  {
-      // console.log
       setBgRed(true)
     }
   }

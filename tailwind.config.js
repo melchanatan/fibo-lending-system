@@ -19,7 +19,7 @@ module.exports = {
         'primary-green-darken': '#f1b24b',
       },
       fontSize: {
-        "clamp-sm" : "clamp(1.2rem, 2.5vw, 1.5rem)",
+        "clamp-sm" : "clamp(.9rem, 3.5vw, 1.5rem)",
         "clamp-md" : "clamp(2rem, 6vw, 3rem)",
         "clamp-lg" : "clamp(2.3rem, 10vw, 3rem)",
       },
