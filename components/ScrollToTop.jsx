@@ -11,7 +11,6 @@ const ScrollToTop = () => {
             {!showTopBtn && (
                 <a
                 href="#cart"
-                onClick={ () => console.log(windowHeight)}
                 className='flex sm:hidden z-20 border-2 fixed bottom-[3rem] right-[9vw] h-[6rem] w-[6rem] items-center justify-center rounded-full border-black bg-primary-green transition-colors group hover:bg-white hover:border-black'
                 >
                     <ShoppingBagIcon className='h-[4rem] w-[4rem] fill-primary-green transition-colors group group-hover:fill-white border-white' />
