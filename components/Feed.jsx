@@ -16,7 +16,7 @@ const ItemCardList = ({ data, addToCart, maxIndex, setMaxIndex}) => {
 
     return (
         <div>
-            <ScrollToTop />
+            <ScrollToTop maxIndex={maxIndex}/>
             <div ref={parent} className='mb-[3vw] justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 lg:gap-8 max-h-auto'>          
             {data.slice(0, maxIndex).map( (post) => (    
                 <ItemCard
