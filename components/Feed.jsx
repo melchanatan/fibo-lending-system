@@ -16,6 +16,7 @@ const ItemCardList = ({ data, addToCart, maxIndex, setMaxIndex}) => {
 
     return (
         <div>
+            <ScrollToTop />
             <div ref={parent} className='mb-[3vw] justify-self-start h-fit justify-items-start grid grid-cols-2 md:grid-cols-3 gap-6 gap-y-8 lg:gap-8 max-h-auto'>          
             {data.slice(0, maxIndex).map( (post) => (    
                 <ItemCard
@@ -26,8 +27,9 @@ const ItemCardList = ({ data, addToCart, maxIndex, setMaxIndex}) => {
             </div>
             {
                 maxIndex < data.length &&
-                <a onClick={() => setMaxIndex(maxIndex + 9)} className='cursor-pointer justify-self-center font-inter text-xl underline text-primary-green hover:text-slate-600 transition-all'>show more</a>
+                <a onClick={() => {setMaxIndex(maxIndex + 9);}} className='cursor-pointer justify-self-center font-inter text-xl underline text-primary-green hover:text-slate-600 transition-all'>show more</a>
             }
+
         </div>
     );
 };
@@ -110,7 +112,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
     const [parent] = useAutoAnimate({duration: 100, easing:'ease-in-out'});
 
     return (
-        <form id="cart" Submit={handleSubmit} className='sticky top-[5vh] h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-12 sm:mt-0'>
+        <form id="cart" Submit={handleSubmit} className='z-20 sticky top-[5vh] h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-12 sm:mt-0'>
             {confirming && <Confirm handleBack={handleBack} itemInCart={itemInCart} tel={tel} name={name} groupNumber={groupNumber} />}
             <h3 className='text-left text-white text-[2rem] font-satoshi tracking-wider font-bold'>
                 Cart
@@ -173,7 +175,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                         placeholder=''
                         required
                         min="1"
-                        max="12"
+                        max={maxGroupNumber}
                         type="number"
                         className='translate-y-[-6px] font-montserrat focus:mx-2 mx-6 w-full text-lg bg-primary-green border-b-2 text-center px-3 text-white border-white mb-4 placeholder-slate-300 select duration-200 remove-arrow ease-in transition-all outline-none'
                     />
@@ -258,7 +260,6 @@ const Feed = () => {
     
     return (
         <section onScroll={onScroll} ref={listInnerRef} className='mt-6 sm:mt-16 flex-col flex sm:flex-row md:gap-[1vw] lg:gap-[2vw] text-center justify-items-start'>
-            <ScrollToTop />
             <div className='sm:w-1/2 w-full md:w-2/3 px-10 sm:px-6'>
                 <ul className='flex gap-x-[7vw] sm:gap-x-[2vw] gap-y-4 mb-8 items-end flex-wrap'>
                     <li onClick={ (e) => {tagSelect("");  setActiveItem(e.target.innerText); setMaxIndex(indexStep)}} className={activeItem === "ALL" ? 'link_text link_text--active' : 'link_text'}>ALL</li>

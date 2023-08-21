@@ -37,9 +37,6 @@ const Admin = () => {
     }
 
     const handleReset = async (post) => {
-        // const response = await fetch(`/api/item/${itemId}`);
-        // const data = await response.json();
-
         try {
             const response = await fetch(`/api/item/${post._id}`, {
                 method: "PATCH",
