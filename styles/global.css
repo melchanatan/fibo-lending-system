@@ -152,7 +152,7 @@ input[type=number] {
 }
 
 .link_text {
-  @apply align-text-bottom inline text-clamp-sm font-bold px-2 py-1 border-gray-500 border-2 rounded-full text-gray-500 font-satoshi hover:scale-[120%] transition-all cursor-pointer
+  @apply select-none align-text-bottom inline text-clamp-sm font-bold px-2 py-1 border-gray-500 border-2 rounded-full text-gray-500 font-satoshi hover:scale-[120%] transition-all cursor-pointer
 }
 
 .link_text--active {

@@ -5,22 +5,30 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 import { connectToDB } from "@utils/database";
+import { Router, useRouter } from 'next/navigation';
+
 
 const Nav = () => {
     
   const { data: session } = useSession();
+  const router = useRouter()
 
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false)
 
   useEffect(() => {
     const setUpProviders = async () => {
-        const response = await getProviders();
 
-        setProviders(response);
+        const response1 = await getProviders();
+        setProviders(response1);
+
     }
 
     setUpProviders();
+    
+    if (!session) {
+        router.push("/admin/unauthenticated")
+    }
   } ,[])
 
   return (
