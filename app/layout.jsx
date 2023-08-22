@@ -5,7 +5,7 @@ import '@styles/global.css';
 import Footer from '@components/Footer';
 
 export const metadata = {
-    title: "Fra161 lending service",
+    title: "FRA161 lending service",
     description: "Fibo robotic exploration equipment lending website.",
 }
 
