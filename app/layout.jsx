@@ -5,7 +5,7 @@ import '@styles/global.css';
 import Footer from '@components/Footer';
 
 export const metadata = {
-    title: "Fra161 lending system",
+    title: "Fra161 lending service",
     description: "Fibo robotic exploration equipment lending website.",
 }
 
@@ -13,7 +13,7 @@ const Rootlayout = ({ children }) => {
   return (
     <html lang='en'>
         <head>
-            <link rel="icon" href="/favicon.png" />
+            <link rel="shortcut icon" href="/assets/favicon.ico" />
         </head>
         <body>
             <div>
