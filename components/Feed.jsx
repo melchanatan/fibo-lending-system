@@ -264,7 +264,7 @@ const Feed = () => {
             <div className='sm:w-1/2 w-full md:w-2/3 px-10 sm:px-6'>
                 <ul className='flex gap-x-[7vw] sm:gap-x-[2vw] gap-y-4 mb-8 items-end flex-wrap'>
                     <li onClick={(e) => { tagSelect(""); setActiveItem(e.target.innerText); setMaxIndex(indexStep) }} className={activeItem === "ALL" ? 'link_text link_text--active' : 'link_text'}>ALL</li>
-                    <li onClick={(e) => { tagSelect(e.target.innerText); setActiveItem(e.target.innerText); setMaxIndex(indexStep) }} className={activeItem === "Actuator" ? 'link_text link_text--active' : 'link_text'}>Actuator</li>
+                    <li onClick={(e) => { tagSelect("acuator"); setActiveItem(e.target.innerText); setMaxIndex(indexStep) }} className={activeItem === "Actuator" ? 'link_text link_text--active' : 'link_text'}>Actuator</li>
                     <li onClick={(e) => { tagSelect(e.target.innerText); setActiveItem(e.target.innerText); setMaxIndex(indexStep) }} className={activeItem === "Sensor" ? 'link_text link_text--active' : 'link_text'}>Sensor</li>
                     <li onClick={(e) => { tagSelect(e.target.innerText); setActiveItem(e.target.innerText); setMaxIndex(indexStep) }} className={activeItem === "Supply" ? 'link_text link_text--active' : 'link_text'}>Supply</li>
                     <li onClick={(e) => { tagSelect(e.target.innerText); setActiveItem(e.target.innerText); setMaxIndex(indexStep) }} className={activeItem === "Mechanic" ? 'link_text link_text--active' : 'link_text'}>Mechanic</li>
