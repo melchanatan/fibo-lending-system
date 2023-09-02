@@ -28,7 +28,7 @@ const ItemCard = ({ post, addToCart, type, handleEdit, handleDelete, handleReset
             {post.stockMax} Max
           </p>
         }
-        { post.stockCurrent <= 0 ? (
+        { post.stockCurrent <= 0 && type !== "admin" ? (
             <p className="font-satoshi font-bold text-gray-500">
               out of stock
             </p>

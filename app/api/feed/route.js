@@ -16,7 +16,7 @@ export const PATCH = async (request, res) => {
             return new Response("Item not found", { status: 404 });
         }
     } catch(error) {
-        // return new Response("Error Updating Item", { status: 500 });
+        return new Response("Error Updating Item", { status: 500 });
     }
 
     //     // Update the Item with new data
