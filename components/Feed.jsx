@@ -101,11 +101,16 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
             if (!flag) {
                 setConfirming(true)
             } else {
+                const buffer = [];
                 console.log(problemItem)
                 itemInCart.forEach((item) => {
-                    item["stockCurrent"] = problemItem[item._id] ? problemItem[item._id] : item.stockCurrent
-                    item["bgColor"] = problemItem[item._id] ? "red" : "none"
+                    item["stockCurrent"] = problemItem[item._id] <= 0 ? problemItem[item._id] : item.stockCurrent
+                    item["bgColor"] = problemItem[item._id] <= 0 ? "red" : "none"
+                    buffer.push(item)
                 })
+                setItemInCart(buffer)
+                console.log(buffer)
+                console.log("is pro")
             }
         }
     }
@@ -118,7 +123,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
             <h3 className='text-left text-white text-[2rem] font-satoshi tracking-wider font-bold'>
                 Cart
             </h3>
-            <ul ref={parent} className='min-h-[30vh] max-h-[60vh] sm:h-[50vh] mt-6 flex flex-col gap-6 overflow-y-auto overflow-x-hidden pr-2'>
+            <ul className='min-h-[30vh] max-h-[60vh] sm:h-[50vh] mt-6 flex flex-col gap-6 overflow-y-auto overflow-x-hidden pr-2'>
                 {data && data.map((post) => (
                     <CartCard
                         post={post}

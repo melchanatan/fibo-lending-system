@@ -51,7 +51,7 @@ const CartCard = ({post, setItemInCart, itemInCart}) => {
   })
 
   return (
-    <div className={bgRed ? 'bg-red-400 flex justify-between align-middle min-h-[5rem] border-md' : 'flex justify-between align-middle min-h-[5rem]'}>
+    <div className={bgRed ? 'rounded-md border-4 border-red-400 bg-red-400 flex justify-between align-middle min-h-[5rem] border-md' : 'flex justify-between align-middle min-h-[5rem]'}>
       <div className='flex items-center gap-3'>
         {/* div1 */}
         <div className='flex items-center relative group h-full w-[5rem]'>
