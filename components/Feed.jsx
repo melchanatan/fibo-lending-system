@@ -62,8 +62,8 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
         setConfirming(false)
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        // e.preventDefault();
         setSubmitting(true);
 
         // check with Database
@@ -113,7 +113,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
     const [parent] = useAutoAnimate({ duration: 100, easing: 'ease-in-out' });
 
     return (
-        <form id="cart" Submit={handleSubmit} className='z-20 sticky top-[5vh] h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-12 sm:mt-0'>
+        <form id="cart" className='z-20 sticky top-[5vh] h-fit bg-primary-green sm:w-1/2 w-full md:w-[40%] !pr-4 px-8 ml-0 sm:ml-4 md:ml-0 md:px-8 sm:px-6 lg:px-8 flex flex-col max-h-fit py-7 justify-between mt-12 sm:mt-0'>
             {confirming && <Confirm handleBack={handleBack} itemInCart={itemInCart} tel={tel} name={name} groupNumber={groupNumber} />}
             <h3 className='text-left text-white text-[2rem] font-satoshi tracking-wider font-bold'>
                 Cart
@@ -182,7 +182,7 @@ const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
                     />
                 </label>
 
-                <button type="submit" disabled={submitting} className='!text-lg white_btn w-full'>
+                <button type="button" disabled={submitting} onClick={handleSubmit} className='!text-lg white_btn w-full'>
                     send{submitting && "ing..."}
                 </button>
             </div>
