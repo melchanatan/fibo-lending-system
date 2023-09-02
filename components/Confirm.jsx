@@ -62,10 +62,12 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
             )}
             
             const orderBeenPlaced = await placeOrder()
-            if (orderBeenPlaced) router.push("/confirm")
+            if (orderBeenPlaced) {
+                router.push("/confirm")
+                setOrderBeenPlace(true)
+            }
             else {
                 alert("Error Placing order")
-                setOrderBeenPlace(false)
             }
 
             // Make change to database
