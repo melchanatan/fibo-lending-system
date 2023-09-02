@@ -9,7 +9,8 @@ import { useRouter } from 'next/navigation'
 const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
     const router = useRouter()
     
-    const [orderBeenPlace, setOrderBeenPlace] = useState(false)
+    const orderBeenPlace = false
+    const [placeOrderError, setPlaceOrderError] = useState(false)
     const [submitting, setSubmitting] = useState(false)
 
     const placeOrder = async () => {
@@ -64,14 +65,14 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
             const orderBeenPlaced = await placeOrder()
             if (orderBeenPlaced) {
                 router.push("/confirm")
-                setOrderBeenPlace(true)
             }
             else {
                 alert("Error Placing order")
+                setPlaceOrderError(true)
             }
 
             // Make change to database
-            if (orderBeenPlace) {
+            if (!placeOrderError) {
                 result.forEach( async (item) => {
                     try {
                         const response = await fetch(`/api/item`, {
