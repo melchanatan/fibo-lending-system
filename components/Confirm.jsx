@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation'
 const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
     const router = useRouter()
     
-    const orderBeenPlace = false
     const [placeOrderError, setPlaceOrderError] = useState(false)
     const [submitting, setSubmitting] = useState(false)
 
@@ -39,6 +38,7 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
         setSubmitting(true)
         //Make change to database
         var updatingDBError = false
+        const itemOutOfStockId = []
         try {
             const response = await fetch('/api/item');
             const d = await response.json();
@@ -53,6 +53,7 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
                             const stockRemaining = o.stockCurrent - item.wantedStock
                             if (stockRemaining < 0) {
                                 alert("Stock remaining is less than wanted amount.")
+                                itemOutOfStockId.push(o_id)
                             }
                             const buffer = o
                             buffer["stockCurrent"] = stockRemaining
@@ -74,19 +75,24 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
             // Make change to database
             if (!placeOrderError) {
                 result.forEach( async (item) => {
-                    try {
-                        const response = await fetch(`/api/item`, {
-                            method: "PATCH",
-                            body: JSON.stringify({
-                                id: item._id,
-                                stockCurrent: item.stockCurrent,
-                            }),
-                        });
-                        
-                    } catch (error) {
-                        updatingDBError = true
-                        alert("Unable to update item(s) in database");
-                }})
+                    if (!itemOutOfStockId.includes(item._id)) {
+                        try {
+                            const response = await fetch(`/api/item`, {
+                                method: "PATCH",
+                                body: JSON.stringify({
+                                    id: item._id,
+                                    stockCurrent: item.stockCurrent,
+                                }),
+                            });
+                            
+                        } catch (error) {
+                            updatingDBError = true
+                            alert("Unable to update item(s) in database");
+                    }} else {
+                        alert("Error: you may need to re-order: " + JSON.stringify(itemOutOfStockId))
+                    }
+                })
+                    
             }
 
         } catch(error) {
