@@ -88,11 +88,12 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
                         } catch (error) {
                             updatingDBError = true
                             alert("Unable to update item(s) in database");
-                    }} else {
-                        alert("Error: you may need to re-order: " + JSON.stringify(itemOutOfStockId))
+                        }
+                    } else {
+                        alert("Error: you may need to re-order: " + item.name)
                     }
                 })
-                    
+
             }
 
         } catch(error) {

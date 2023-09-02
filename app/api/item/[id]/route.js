@@ -35,6 +35,7 @@ export const PATCH = async (request, { params }) => {
         existingItem.description = description;
         existingItem.tag = tag;
         existingItem.stockMax = stockMax;
+        existingItem.stockCurrent = stockMax;
 
         await existingItem.save();
 
