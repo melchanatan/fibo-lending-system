@@ -275,11 +275,14 @@ const Feed = () => {
                 ) : (
                     <p className='py-[8vh] w-full text-gray-500 mt-[5vh]'>Item list empty.</p>
                 )}   */}
-                {!loading ? (
+
+                {/* in testing */}
+                maintenancing check facebook for more info.
+                {/* {!loading ? (
                     <ItemCardList data={searchedResults} addToCart={addToCart} maxIndex={maxIndex} setMaxIndex={setMaxIndex} />
                 ) : (
                     <LoadingSkeleton />
-                )}
+                )} */}
             </div>
             <Cart router={router} data={itemInCart} setItemInCart={setItemInCart} itemInCart={itemInCart} setAllPosts={setAllPosts} />
         </section>

@@ -4,6 +4,7 @@ import { connectToDB } from "@utils/database";
 export const GET = async (request, { params }) => {
     try {
         await connectToDB()
+        console.log("fetching " + params.id)  
 
         const item = await Item.findById(params.id).populate("creator")
         if (!item) return new Response("item Not Found", { status: 404 });
@@ -16,13 +17,14 @@ export const GET = async (request, { params }) => {
 }
 
 export const PATCH = async (request, { params }) => {
-    const { name, description, tag, image, stockCurrent} = await request.json();
+    const { name, description, tag, image, stockMax} = await request.json();
 
     try {
         await connectToDB();
 
         // Find the existing item by ID
         const existingItem = await Item.findById(params.id);
+        console.log("editing " + name)
 
         if (!existingItem) {
             return new Response("item not found", { status: 404 });
@@ -32,7 +34,7 @@ export const PATCH = async (request, { params }) => {
         existingItem.name = name;
         existingItem.description = description;
         existingItem.tag = tag;
-        existingItem.stockCurrent = stockCurrent;
+        existingItem.stockMax = stockMax;
 
         await existingItem.save();
 

@@ -54,7 +54,7 @@ const CreateItem = () => {
                     name: post.name,
                     description: post.description,
                     tag: post.tag,
-                    stockCurrent: post.stockMax
+                    stockMax: post.stockMax
                 })
             })
             if (response.ok) {
