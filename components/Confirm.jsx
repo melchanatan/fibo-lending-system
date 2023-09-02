@@ -51,7 +51,7 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
                         if (o._id == item._id) {
                             const stockRemaining = o.stockCurrent - item.wantedStock
                             if (stockRemaining < 0) {
-                                alert("no no")
+                                alert("Stock remaining is less than wanted amount.")
                             }
                             const buffer = o
                             buffer["stockCurrent"] = stockRemaining
@@ -61,30 +61,31 @@ const Confirm = ({ handleBack, itemInCart, tel, name ,groupNumber }) => {
                 }
             )}
             
-            // Make change to database
-            result.forEach( async (item) => {
-                try {
-                    console.log(item._id)
-                    const response = await fetch(`/api/item`, {
-                        method: "PATCH",
-                        body: JSON.stringify({
-                            id: item._id,
-                            stockCurrent: item.stockCurrent,
-                        }),
-                    });
-                    
-                } catch (error) {
-                    updatingDBError = true
-                    console.log(error);
-            }})
-
-            if (!updatingDBError) {
-                const orderBeenPlaced = await placeOrder()
-                if (orderBeenPlaced) router.push("/confirm")
-                else {
-                    alert("Error Placing order")
-                }
+            const orderBeenPlaced = await placeOrder()
+            if (orderBeenPlaced) router.push("/confirm")
+            else {
+                alert("Error Placing order")
+                setOrderBeenPlace(false)
             }
+
+            // Make change to database
+            if (orderBeenPlace) {
+                result.forEach( async (item) => {
+                    try {
+                        const response = await fetch(`/api/item`, {
+                            method: "PATCH",
+                            body: JSON.stringify({
+                                id: item._id,
+                                stockCurrent: item.stockCurrent,
+                            }),
+                        });
+                        
+                    } catch (error) {
+                        updatingDBError = true
+                        alert("Unable to update item(s) in database");
+                }})
+            }
+
         } catch(error) {
             console.log(error);
         } finally {

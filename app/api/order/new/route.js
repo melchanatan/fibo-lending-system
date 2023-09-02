@@ -5,7 +5,7 @@ export const POST = async (req, res) => {
     const { customerName, customerTel, customerGroup, timestamp, items } = await req.json();
 
     try {
-        console.log("fuck me ues")
+        console.log("Order: posting order for " + customerName)
         await connectToDB();
         const newOrder = new Order({
             customerName,

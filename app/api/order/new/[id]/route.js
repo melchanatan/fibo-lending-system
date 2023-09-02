@@ -4,7 +4,8 @@ import { connectToDB } from "@utils/database";
 export const GET = async (request, { params }) => {
     try {
         await connectToDB()
-
+        
+        console.log("Order: fetch item")
         const item = await Item.findById(params.id).populate("creator")
         if (!item) return new Response("item Not Found", { status: 404 });
 
@@ -27,6 +28,8 @@ export const PATCH = async (request, { params }) => {
         if (!existingItem) {
             return new Response("item not found", { status: 404 });
         }
+
+        console.log("Order: updating " + name + "(stockCurrent: " + stockCurrent + ")")
 
         // Update the item with new data
         existingItem.name = name;

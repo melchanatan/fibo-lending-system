@@ -6,11 +6,11 @@ const ItemSchema = new Schema({
         require: [true, "Customer name is required."],
     },
     customerTel: {
-        type: Number,
+        type: String,
         require: [true, "Customer tel is required."],
     },
     customerGroup: {
-        type: Number,
+        type: String,
         require: [true, "Group is required."],
     },
     timestamp: {
@@ -20,8 +20,10 @@ const ItemSchema = new Schema({
     items: {
         type: Array,
         "default": []
+    },
+    error: {
+        type: String
     }
-
 
 })
 
