@@ -47,7 +47,6 @@ const LoadingSkeleton = (num) => {
 }
 
 const Cart = ({ router, data, setItemInCart, itemInCart, setAllPosts }) => {
-
     const [submitting, setSubmitting] = useState(false);
     const [groupNumber, setGroupNumber] = useState("");
     const [tel, setTel] = useState("");

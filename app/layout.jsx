@@ -2,7 +2,6 @@ import '@styles/global.css';
 
 // import Nav from '@components/Nav';
 // import Provider from '@components/Provider';
-import Footer from '@components/Footer';
 
 export const metadata = {
     title: "FRA161 lending service",
@@ -10,29 +9,30 @@ export const metadata = {
 }
 
 const Rootlayout = ({ children }) => {
-  return (
-    <html lang='en'>
-        <head>
-            <link rel="shortcut icon" href="/assets/favicon.ico" />
-        </head>
-        <body>
-            <div>
-                {/* <Provider> */}
-                <div className='main'>
-                    {/* <div className='gradient'/> */}
+    return (
+        <html lang='en'>
+            <head>   
+                <link rel="shortcut icon" href="/assets/favicon.ico" />
+                <meta name="theme-color" value='#36C1A3' />
+            </head>
+            <body>
+                <div>
+                    {/* <Provider> */}
+                    <div className='main'>
+                        {/* <div className='gradient'/> */}
+                    </div>
+                    
+                    <main className='app'>
+                        {/* <Nav /> */}
+                        {children}
+                    </main>
+                    {/* </Provider> */}
                 </div>
                 
-                <main className='app'>
-                    {/* <Nav /> */}
-                    {children}
-                </main>
-                {/* </Provider> */}
-            </div>
-            
-        </body>
-    </html>
-    
-  )
+            </body>
+        </html>
+        
+    )
 }
 
 export default Rootlayout;

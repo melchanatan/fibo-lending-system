@@ -48,9 +48,16 @@ const Nav = () => {
         <div className="sm:flex hidden">
             {session?.user ? (
                 <div className="flex gap-3 md:gap-5">
+                    <Link href='/admin/manage-order' className='black_btn'>
+                        Orders
+                    </Link>
+                    <Link href='/admin/manage-order' className='black_btn'>
+                        Inventory
+                    </Link>
                     <button type="button" onClick={signOut} className="outline_btn">
                         Sign Out
                     </button>
+                    
                     <Image 
                         src={session?.user.image}
                         width={37}
@@ -88,6 +95,12 @@ const Nav = () => {
 
                     {toggleDropdown && (
                         <div className="dropdown">
+                            <Link href='/admin/manage-order' className='dropdown_link'>
+                                Manage Orders
+                            </Link>
+                            <Link href='/admin' className='dropdown_link'>
+                                Manage Inventory
+                            </Link>
                             <button 
                             type="button" 
                             onClick={() => {
