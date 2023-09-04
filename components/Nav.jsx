@@ -51,7 +51,7 @@ const Nav = () => {
                     <Link href='/admin/manage-order' className='black_btn'>
                         Orders
                     </Link>
-                    <Link href='/admin/manage-order' className='black_btn'>
+                    <Link href='/admin' className='black_btn'>
                         Inventory
                     </Link>
                     <button type="button" onClick={signOut} className="outline_btn">
