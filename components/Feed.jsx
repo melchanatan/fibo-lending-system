@@ -281,12 +281,12 @@ const Feed = () => {
                 )}   */}
 
                 {/* in testing */}
-                {/* maintenancing check facebook for more info. */}
-                {!loading ? (
+                maintenancing check facebook for more info.
+                {/* {!loading ? (
                     <ItemCardList data={searchedResults} addToCart={addToCart} maxIndex={maxIndex} setMaxIndex={setMaxIndex} />
                 ) : (
                     <LoadingSkeleton />
-                )}
+                )} */}
             </div>
             <Cart router={router} data={itemInCart} setItemInCart={setItemInCart} itemInCart={itemInCart} setAllPosts={setAllPosts} />
         </section>
