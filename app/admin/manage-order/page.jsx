@@ -6,11 +6,13 @@ import { ArrowPathIcon } from '@heroicons/react/24/solid'
 const ManageOrder = () => {
 
     const [orders, setOrders] = useState([])
+
     const fetchOrders = async () => {
         const response = await fetch('/api/order');
         const data = await response.json();
 
-        setOrders(data)
+
+        setOrders(data.reverse())
     }
 
     useEffect(() => {
@@ -34,7 +36,7 @@ const ManageOrder = () => {
                     <OrderCard order={order} />
                 ))}
             </div>
-            
+
         </section>
     )
 }
