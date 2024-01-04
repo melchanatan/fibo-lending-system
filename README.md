@@ -13,6 +13,9 @@ These are some of the features. <br/>
 **Stock Editor Page** <br/>
 <img src="https://i.imgur.com/Rzjh6dr.png" width="500">
 
+**Add Item Page** <br/>
+<img src="https://i.imgur.com/SBtVw4t.png" width="500">
+
 **Orders Page** <br/>
 <img src="https://i.imgur.com/3IHDlhT.png" width="500">
 
