@@ -34,3 +34,6 @@ Node.js: Please refer to their installation guide.
 3. Clone your forked repository.
 4. Run `npm i to install` needed packages.
 5. Run `npm run dev` to start the application. You can access it via `http://localhost:3000`.
+
+## License
+MIT
