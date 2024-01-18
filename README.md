@@ -1,7 +1,7 @@
 # Lending Service Web App
 This is a web e-commerce-like web application. For FIBO undergrad lead Equipment to use in their project.
 
-note: Looking forward to re-writing or updating this Project for better UX (If you are interested feel free to contact me to collaborate.🔥
+note: Version 2 on its way!.🔥
 
 ### Screenshot
 
