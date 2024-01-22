@@ -1,7 +1,7 @@
 # Lending Service Web App
 This is a web e-commerce-like web application. For FIBO undergrad lead Equipment to use in their project.
 
-note: Version 2 on its way!.🔥
+note: [This is the new and improve version!](https://github.com/melchanatan/fibo-lending-system-v2)
 
 ### Screenshot
 
